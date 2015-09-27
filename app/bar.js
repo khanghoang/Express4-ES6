@@ -1,11 +1,9 @@
-import express1 from "express";
-
 function test() {
-  if(false) {
+  if (false) {
     return 'good bye';
   }
 
-  return "a"
+  return 'a';
 }
 
 export default test;

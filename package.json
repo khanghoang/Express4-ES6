@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "babel-core": "^5.8.25",
+    "eslint": "^1.5.1",
     "istanbul": "^0.3.21",
     "mocha": "^2.3.3"
   }

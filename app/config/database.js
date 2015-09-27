@@ -4,7 +4,7 @@ const connectToDatabase = (app, mongoose) => {
   const connect = () => {
     let options = {
       server: {
-        socketOptions: { keepAlive :1 }
+        socketOptions: {keepAlive :1}
       },
       auto_reconnect: true
     }
