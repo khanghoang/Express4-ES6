@@ -1,8 +1,9 @@
 import express from "express";
+import Bar from "./bar.js";
 const app = express();
 
 app.get('/', (req, res) => {
-  res.send('Hello world');
+  res.send('Hello world' + Bar.foo);
 })
 
 const server = app.listen(3000, () => {

@@ -8,7 +8,6 @@ gulp.task("babel", function () {
   return gulp.src("app/**/*.js")
   .pipe(sourcemaps.init())
   .pipe(babel())
-  .pipe(concat("all.js"))
   .pipe(sourcemaps.write("."))
   .pipe(gulp.dest("dist"))
 });
@@ -17,7 +16,7 @@ gulp.task("babel", function () {
 
 gulp.task('default', function() {
   nodemon({
-      script: 'dist/all.js'
+      script: 'dist/server.js'
     , watch: 'app/'
     , ext: 'js html'
     , env: { 'NODE_ENV': 'development' }
