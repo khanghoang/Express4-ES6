@@ -2,6 +2,7 @@ import express from "express";
 import Bar from "./bar";
 import connectToDatabase from "./config/database";
 import mongoose from "mongoose";
+import config from "./config/config";
 
 const app = express();
 
@@ -11,7 +12,7 @@ app.get('/', (req, res) => {
   res.send('Hello world' + Bar.foo);
 })
 
-const server = app.listen(3000, () => {
+const server = app.listen(config.server.port, () => {
   const host = server.address().address;
   const port = server.address().port;
 

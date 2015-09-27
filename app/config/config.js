@@ -5,7 +5,6 @@ let rootPath = path.normalize(__dirname + "/..");
 let env = process.env.NODE_ENV || 'development';
 
 let dirname = __dirname + util.format('/%s.config.js', env);
-
-import config from './development.config';
+var config = require(dirname);
 
 export default config;
