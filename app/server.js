@@ -1,6 +1,11 @@
 import express from "express";
-import Bar from "./bar.js";
+import Bar from "./bar";
+import connectToDatabase from "./config/database";
+import mongoose from "mongoose";
+
 const app = express();
+
+connectToDatabase(app, mongoose);
 
 app.get('/', (req, res) => {
   res.send('Hello world' + Bar.foo);

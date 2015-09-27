@@ -16,7 +16,9 @@
     "gulp": "^3.9.0",
     "gulp-babel": "^5.2.1",
     "gulp-concat": "^2.6.0",
+    "gulp-nodemon": "^2.0.4",
     "gulp-sourcemaps": "^1.5.2",
+    "mongoose": "^4.1.8",
     "nodemon": "^1.7.1",
     "supertest": "^1.1.0"
   },
