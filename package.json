@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --compilers js:babel/register --require test/support/env --reporter spec --bail --check-leaks test/"
   },
   "author": "Khang Hoang <hoangtrieukhang@gmail.com> (https://twitter.com/khanght)",
   "license": "ISC",
@@ -16,7 +16,8 @@
     "gulp-babel": "^5.2.1",
     "gulp-concat": "^2.6.0",
     "gulp-sourcemaps": "^1.5.2",
-    "nodemon": "^1.7.1"
+    "nodemon": "^1.7.1",
+    "supertest": "^1.1.0"
   },
   "devDependencies": {
     "babel-core": "^5.8.25",

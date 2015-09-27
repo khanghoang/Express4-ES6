@@ -12,3 +12,5 @@ const server = app.listen(3000, () => {
 
   console.log('Expess app listening at http://%s:%s', host, port);
 });
+
+export default app;
