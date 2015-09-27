@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha --compilers js:babel/register --require test/support/env --reporter spec --bail --check-leaks test/"
+    "test": "mocha --compilers js:babel/register --require test/support/env --reporter spec --bail --check-leaks test/",
+    "test-co": "istanbul cover _mocha -- --require babel/register test/support/env --reporter dot --check-leaks test"
   },
   "author": "Khang Hoang <hoangtrieukhang@gmail.com> (https://twitter.com/khanght)",
   "license": "ISC",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "babel-core": "^5.8.25",
-    "gulp-nodemon": "^2.0.4"
+    "istanbul": "^0.3.21",
+    "mocha": "^2.3.3"
   }
 }

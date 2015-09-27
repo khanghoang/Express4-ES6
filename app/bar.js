@@ -1,6 +1,12 @@
 import express1 from "express";
 
-let a = {foo: "bar"};
+function test() {
+  if(false) {
+    return 'good bye';
+  }
 
-export default a;
+  return "a"
+}
+
+export default test;
 
