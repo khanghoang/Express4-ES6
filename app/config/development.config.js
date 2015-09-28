@@ -7,6 +7,6 @@ const config = {
   database: {
     url: 'mongodb://localhost/euro_sports'
   }
-}
+};
 
 export default config;

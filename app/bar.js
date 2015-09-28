@@ -1,8 +1,4 @@
 function test() {
-  if (false) {
-    return 'good bye';
-  }
-
   return 'a';
 }
 
