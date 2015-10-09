@@ -12,6 +12,10 @@ app.get('/', (req, res) => {
   res.send('Hello world' + Bar.foo);
 });
 
+app.get('/test', (req, res) => {
+  res.send('Hello world');
+});
+
 const server = app.listen(config.server.port, () => {
   const host = server.address().address;
   const port = server.address().port;
