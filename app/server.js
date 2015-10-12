@@ -18,28 +18,27 @@ app.get('/test', (req, res) => {
 
 app.get('/somewierdurl', (req, res, next) => {
   next(new Error('this is expected error'));
-})
+});
 
 // handle error
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   let status = err.status || 500;
   let message = err.message || 'Opps, there was an error';
 
   // handle html
-  if(req.accepts('html')) {
+  if (req.accepts('html')) {
     return res.status(status).send(message);
   }
 
   // handle json
-  if(req.accepts('json')) {
+  if (req.accepts('json')) {
     return res.status(status)
     .json({
       status: status,
       message: message
     });
   }
-
-})
+});
 
 const server = app.listen(config.server.port, () => {
   const host = server.address().address;

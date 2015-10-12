@@ -33,6 +33,6 @@ describe('Test endpoints', () => {
       data = JSON.parse(data.text);
       assert.equal(data.message, 'this is expected error');
       done();
-    })
+    });
   })
 });

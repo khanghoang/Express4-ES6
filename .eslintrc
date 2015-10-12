@@ -6,6 +6,8 @@
 
   },
   "ecmaFeatures": {
+    'classes': true,
+    'generators': true,
     "arrowFunctions": true,
     "binaryLiterals": true,
     "blockBindings": true,

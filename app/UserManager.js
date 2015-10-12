@@ -6,8 +6,8 @@ class UserManager {
     return newUser;
   }
 
-  *saveUser(user) {
-    return yield *user.save();
+  * saveUser(user) {
+    return yield* user.save();
   }
 }
 

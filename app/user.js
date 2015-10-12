@@ -7,7 +7,7 @@ var UserSchema = new Schema({
 
   email: String,
 
-  hashed_password: String,
+  hashedPassword: String,
 
   provider: {
     type: Schema.Types.Array,
@@ -16,6 +16,6 @@ var UserSchema = new Schema({
 
 });
 
-let UserModel = Mongoose.model("User", UserSchema);
+let UserModel = Mongoose.model('User', UserSchema);
 
 export default UserModel;
