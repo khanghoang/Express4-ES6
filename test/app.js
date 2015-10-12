@@ -1,16 +1,25 @@
+require('co-mocha');
 import App from '../app/App';
 import request from 'supertest';
 import assert from 'assert';
+import sinon from 'sinon';
 
 var testConfig = require('../app/config/test.config.js');
 
-let app, express;
+let app, express, mailClient;
 
 before((done) => {
-  app = new App({config: testConfig});
+  // mock mailClient
+  mailClient = {};
+  mailClient.sendMail = sinon.stub();
+
+  app = new App({
+    config: testConfig,
+    mailClient: mailClient
+  });
   express = app.express;
   app.run(done);
-})
+});
 
 
 describe('Test endpoints', () => {
@@ -28,6 +37,15 @@ describe('Test endpoints', () => {
       .expect(200)
       .end(done);
   });
+
+  it('should call send mail function when crash', (done) => {
+    request(express)
+    .get('/somewierdurl')
+    .end(() => {
+      assert(mailClient.sendMail.called);
+      done();
+    });
+  })
 
   it('handle error correctly with html request', (done) => {
     request(express)

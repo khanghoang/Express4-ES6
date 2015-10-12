@@ -9,6 +9,7 @@ class App {
   constructor(opts) {
     opts = opts || {};
     this.config = opts.config || {};
+    this.mailClient = opts.mailClient || {};
     this.express = express();
   }
 
@@ -29,6 +30,12 @@ class App {
 
     app.get('/somewierdurl', (req, res, next) => {
       next(new Error('this is expected error'));
+    });
+
+    // send mail
+    app.use((err, req, res, next) => {
+      this.mailClient && this.mailClient.sendMail('hoangtrieukhang@gmail');
+      next(err);
     });
 
     // handle error
