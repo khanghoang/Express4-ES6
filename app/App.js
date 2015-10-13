@@ -73,11 +73,6 @@ class App {
 
       res.status(status);
 
-      // handle html
-      if (req.accepts('html')) {
-        return res.send(message);
-      }
-
       // handle json
       if (req.accepts('application/json')) {
         return res.json({
@@ -85,6 +80,8 @@ class App {
           message: message
         });
       }
+
+      return res.send(message);
     });
 
     let config = this.config;
