@@ -24,7 +24,7 @@ class App {
   }
 
   static sharedInstance() {
-    if(this.instance) {
+    if (this.instance) {
       return this.instance;
     }
 
