@@ -13,10 +13,11 @@ before((done) => {
   mailClient = {};
   mailClient.sendMail = sinon.stub();
 
-  app = new App({
-    config: testConfig,
-    mailClient: mailClient
-  });
+  app = App.sharedInstance();
+
+  app.config = testConfig;
+  app.mailClient = mailClient;
+
   express = app.express;
   app.run(done);
 });
@@ -64,5 +65,12 @@ describe('Test endpoints', () => {
       assert.equal(data.message, 'this is expected error');
       done();
     });
-  })
+  });
+
+  it('get test app shared instance', (done) => {
+    request(express)
+      .get('/testSharedInstance')
+      .expect(200)
+      .end(() => done())
+  });
 });

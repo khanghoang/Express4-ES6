@@ -6,11 +6,35 @@ import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 
 class App {
-  constructor(opts) {
-    opts = opts || {};
-    this.config = opts.config || {};
-    this.mailClient = opts.mailClient || {};
+
+  set mailClient(newMailClient) {
+    this._mailClient = newMailClient || {};
+  }
+
+  set config(newConfig) {
+    this._config = newConfig || {};
+  }
+
+  get config() {
+    return this._config;
+  }
+
+  get mailClient() {
+    return this._mailClient;
+  }
+
+  static sharedInstance() {
+    if(this.instance) {
+      return this.instance;
+    }
+
+    this.instance = new App();
+    return this.instance;
+  }
+
+  constructor() {
     this.express = express();
+    this.instance = {};
   }
 
   run(cb) {
