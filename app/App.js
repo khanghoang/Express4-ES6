@@ -4,6 +4,8 @@ import connectToDatabase from './config/database';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
+import UserController from './controllers/UserController';
+import User from './user';
 
 class App {
 
@@ -48,6 +50,10 @@ class App {
       res.send('Hello world' + Bar.foo);
     });
 
+    let userController = new UserController(User);
+
+    app.get('/api/users', userController.index);
+
     app.get('/test', (req, res) => {
       res.send('Hello world');
     });
@@ -64,6 +70,10 @@ class App {
 
     // handle error
     app.use((err, req, res, next) => {
+      if (!process.env.NODE_ENV === 'production') {
+        return next(err);
+      }
+
       if (!err) {
         next();
       }

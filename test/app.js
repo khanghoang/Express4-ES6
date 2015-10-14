@@ -71,6 +71,13 @@ describe('Test endpoints', () => {
     request(express)
       .get('/testSharedInstance')
       .expect(200)
-      .end(() => done())
+      .end(() => done());
   });
+
+  it('get users', (done) => {
+    request(express)
+    .get('/api/users')
+    .expect(200)
+    .end(done);
+  })
 });
