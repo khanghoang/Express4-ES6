@@ -1201,6 +1201,18 @@
         }
       }
     },
+    "babel-runtime": {
+      "version": "5.8.25",
+      "from": "babel-runtime@*",
+      "resolved": "https://registry.npmjs.org/babel-runtime/-/babel-runtime-5.8.25.tgz",
+      "dependencies": {
+        "core-js": {
+          "version": "1.2.1",
+          "from": "core-js@>=1.0.0 <2.0.0",
+          "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.1.tgz"
+        }
+      }
+    },
     "body-parser": {
       "version": "1.14.1",
       "from": "body-parser@*",
