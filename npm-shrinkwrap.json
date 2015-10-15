@@ -1213,6 +1213,11 @@
         }
       }
     },
+    "bluebird": {
+      "version": "2.10.2",
+      "from": "bluebird@*",
+      "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-2.10.2.tgz"
+    },
     "body-parser": {
       "version": "1.14.1",
       "from": "body-parser@*",
@@ -1319,6 +1324,42 @@
               }
             }
           }
+        }
+      }
+    },
+    "errorhandler": {
+      "version": "1.4.2",
+      "from": "errorhandler@*",
+      "resolved": "https://registry.npmjs.org/errorhandler/-/errorhandler-1.4.2.tgz",
+      "dependencies": {
+        "accepts": {
+          "version": "1.2.13",
+          "from": "accepts@>=1.2.12 <1.3.0",
+          "resolved": "https://registry.npmjs.org/accepts/-/accepts-1.2.13.tgz",
+          "dependencies": {
+            "mime-types": {
+              "version": "2.1.7",
+              "from": "mime-types@>=2.1.6 <2.2.0",
+              "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.7.tgz",
+              "dependencies": {
+                "mime-db": {
+                  "version": "1.19.0",
+                  "from": "mime-db@>=1.19.0 <1.20.0",
+                  "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.19.0.tgz"
+                }
+              }
+            },
+            "negotiator": {
+              "version": "0.5.3",
+              "from": "negotiator@0.5.3",
+              "resolved": "https://registry.npmjs.org/negotiator/-/negotiator-0.5.3.tgz"
+            }
+          }
+        },
+        "escape-html": {
+          "version": "1.0.2",
+          "from": "escape-html@1.0.2",
+          "resolved": "https://registry.npmjs.org/escape-html/-/escape-html-1.0.2.tgz"
         }
       }
     },
