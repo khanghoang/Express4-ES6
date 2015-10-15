@@ -7,7 +7,10 @@ var nodemon = require('gulp-nodemon');
 gulp.task("babel", function () {
   return gulp.src("app/**/*.js")
   .pipe(sourcemaps.init())
-  .pipe(babel({ optional: ['runtime'] }))
+  .pipe(babel({
+    optional: ['runtime', 'es7.classProperties'],
+    stage: 0
+  }))
   .pipe(sourcemaps.write("."))
   .pipe(gulp.dest("dist"))
 });
