@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import UserController from './controllers/UserController';
-import User from './user';
+import User from './models/User';
 
 class App {
 

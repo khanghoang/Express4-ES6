@@ -1,4 +1,4 @@
-import User from './user';
+import User from '../models/User';
 
 class UserManager {
   createUser(rawUserObject) {
