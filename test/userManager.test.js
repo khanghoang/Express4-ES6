@@ -11,8 +11,10 @@ describe('User Manager', function() {
     var user = UserManager.createUser({username: 'khang'});
     assert.equal(user.username, 'khang');
   })
+  });
 
   it('should call save when saving user', function * () {
+  it('should call save when saving user', function* () {
     var user = UserManager.createUser({username: 'khang'});
     var saveStub = sinon.stub(user, 'save');
     yield UserManager.saveUser(user);
@@ -20,15 +22,19 @@ describe('User Manager', function() {
   });
 
   it('return user model with _id field', function * () {
+  it('return user model with _id field', function* () {
 
     var user = UserManager.createUser({username: 'khang'});
 
     // creat stub and defind the return value
     var saveStub = sinon.stub(user, 'save', function *() {
       return yield({_id: '123', username: 'khang'})
+    sinon.stub(user, 'save', function* () {
+      return yield ({_id: '123', username: 'khang'});
     });
 
     var savedUser = yield UserManager.saveUser(user);
     assert(savedUser._id, '123');
   });
 })
+});
