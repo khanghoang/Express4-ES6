@@ -29,7 +29,7 @@ describe('Test endpoints', () => {
     request(express)
       .get('/')
       .expect(200)
-      .end(() => done())
+      .end(() => done());
   });
 
   it('get test endpoint', (done) => {
@@ -46,14 +46,14 @@ describe('Test endpoints', () => {
       assert(mailClient.sendMail.called);
       done();
     });
-  })
+  });
 
   it('handle error correctly with html request', (done) => {
     request(express)
     .get('/somewierdurl')
     .expect(500)
     .end(done);
-  })
+  });
 
   it('handle error correct with json request', (done) => {
     request(express)
@@ -79,5 +79,5 @@ describe('Test endpoints', () => {
     .get('/api/users')
     .expect(200)
     .end(done);
-  })
+  });
 });
