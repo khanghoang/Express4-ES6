@@ -89,4 +89,11 @@ describe('Test endpoints', () => {
   });
 });
 
+describe('Test authorization', () => {
+  it('the enpoint of token oauth is /oauth/token', (done) => {
+    request(express)
+      .get('/oauth/token')
+      .expect(200)
+      .end(done);
+  });
 });
