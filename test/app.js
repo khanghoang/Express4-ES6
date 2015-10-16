@@ -80,4 +80,13 @@ describe('Test endpoints', () => {
     .expect(200)
     .end(done);
   });
+
+  it('return 404 for route that not found', (done) => {
+    request(express)
+    .get('/thisisverylongrouteandnotfound')
+    .expect(404)
+    .end(done);
+  });
+});
+
 });

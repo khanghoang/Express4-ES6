@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import UserController from './controllers/UserController';
 import User from './models/User';
+import errorHandler from 'errorhandler';
 
 class App {
 
@@ -67,6 +68,21 @@ class App {
       this.mailClient && this.mailClient.sendMail('hoangtrieukhang@gmail');
       next(err);
     });
+
+    if (process.env.NODE_ENV === 'development' ||
+       process.env.NODE_ENV === 'test') {
+      // app.use(errorHandler());
+      // next(err);
+    } else {
+      app.use((err, req, res, next) => {
+        if (err.status === 404) {
+          return next(err);
+        }
+
+        console.error(err.stack)
+        next(err);
+      })
+    }
 
     // handle error
     app.use((err, req, res, next) => {
