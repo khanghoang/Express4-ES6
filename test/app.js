@@ -8,7 +8,7 @@ var testConfig = require('../app/config/test.config.js');
 
 let app, express, mailClient;
 
-before((done) => {
+before(function* () {
   // mock mailClient
   mailClient = {};
   mailClient.sendMail = sinon.stub();
@@ -19,7 +19,7 @@ before((done) => {
   app.mailClient = mailClient;
 
   express = app.express;
-  app.run(done);
+  yield app.run();
 });
 
 

@@ -9,6 +9,7 @@ import errorHandler from 'errorhandler';
 import path from 'path';
 import fs from 'fs';
 import pluralize from 'pluralize';
+import Promise from 'bluebird';
 
 class App {
 
@@ -42,21 +43,18 @@ class App {
     this.instance = {};
   }
 
-  loadModels(done) {
-    console.log(path.resolve(__dirname, "./models"));
-    fs.readdir(path.resolve(__dirname, "./models"), (err, files) => {
-      for(let i = 0; i < files.length; i ++) {
-        let file = files[i];
-        let stringFile = './models/' + file
-        let modelName = pluralize(file.replace('.js', ''));
-        console.log(modelName);
-        global[modelName] = require(stringFile);
-      }
-      done();
-    })
+  async loadModels() {
+    let readdirAsync = Promise.promisify(fs.readdir);
+    let files = await readdirAsync(path.resolve(__dirname, "./models"));
+    for(let i = 0; i < files.length; i ++) {
+      let file = files[i];
+      let stringFile = './models/' + file
+      let modelName = pluralize(file.replace('.js', ''));
+      global[modelName] = require(stringFile);
+    }
   }
 
-  start(cb) {
+  start() {
     let app = this.express;
     connectToDatabase(app, mongoose);
 
@@ -132,17 +130,13 @@ class App {
       const host = server.address().address;
       const port = server.address().port;
 
-      cb && cb();
       console.log('Expess app listening at http://%s:%s', host, port);
     });
   }
 
-  run = (cb) => {
-    this.loadModels(() => {
-      this.start(() => {
-        cb();
-      });
-    });
+  run = async () => {
+    await this.loadModels();
+    await this.start();
   }
 
 }
