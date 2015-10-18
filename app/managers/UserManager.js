@@ -1,4 +1,3 @@
-import UserClass from '../models/User';
 import Promise from 'bluebird';
 
 class UserManager {
@@ -15,7 +14,8 @@ class UserManager {
   constructor(opt) {
     // default
     opt = opt || {};
-    let userClass = opt.userClass || UserClass;
+    // let userClass = opt.userClass || Users;
+    let userClass = opt.userClass || {};
 
     this.userClass = Promise.promisifyAll(userClass);
     this.instance = {};
@@ -27,7 +27,7 @@ class UserManager {
 
 
   createUser(rawUserObject) {
-    var newUser = new UserClass(rawUserObject);
+    let newUser = new UserClass(rawUserObject);
     return newUser;
   }
 

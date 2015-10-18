@@ -5,8 +5,10 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import UserController from './controllers/UserController';
-import User from './models/User';
 import errorHandler from 'errorhandler';
+import path from 'path';
+import fs from 'fs';
+import pluralize from 'pluralize';
 
 class App {
 
@@ -40,7 +42,21 @@ class App {
     this.instance = {};
   }
 
-  run(cb) {
+  loadModels(done) {
+    console.log(path.resolve(__dirname, "./models"));
+    fs.readdir(path.resolve(__dirname, "./models"), (err, files) => {
+      for(let i = 0; i < files.length; i ++) {
+        let file = files[i];
+        let stringFile = './models/' + file
+        let modelName = pluralize(file.replace('.js', ''));
+        console.log(modelName);
+        global[modelName] = require(stringFile);
+      }
+      done();
+    })
+  }
+
+  start(cb) {
     let app = this.express;
     connectToDatabase(app, mongoose);
 
@@ -51,7 +67,7 @@ class App {
       res.send('Hello world' + Bar.foo);
     });
 
-    let userController = new UserController(User);
+    let userController = new UserController(Users);
 
     app.get('/api/users', userController.index);
 
@@ -120,6 +136,15 @@ class App {
       console.log('Expess app listening at http://%s:%s', host, port);
     });
   }
+
+  run = (cb) => {
+    this.loadModels(() => {
+      this.start(() => {
+        cb();
+      });
+    });
+  }
+
 }
 
 export default App;

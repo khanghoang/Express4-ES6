@@ -6,7 +6,7 @@ class UserController {
   }
 
   index = async(req, res) => {
-    let User = this.userClass;
+    let User = this.userClass || Users;
     var users = [];
     users = await User.findAsync({});
     return res.status(200).json({data: users});

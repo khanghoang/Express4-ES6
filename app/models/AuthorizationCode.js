@@ -4,7 +4,7 @@ const Schema = Mongoose.Schema;
 var AuthorizationCodeSchema = new Schema({
 
   user: {
-    type: Schema.Types.ObjectId
+    type: Schema.Types.ObjectId,
     ref: 'User'
   },
 

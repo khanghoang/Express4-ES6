@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha --compilers js:babel/register --require test/support/env --require co-mocha --require babelhook --reporter spec --bail --check-leaks test/",
+    "test": "mocha --compilers js:babel/register --require test/support/env --require co-mocha --require babelhook --reporter spec --bail test/",
     "test-co": "istanbul cover _mocha -- --require babel/register test/support/env --reporter dot --check-leaks test",
     "lint": "node_modules/eslint/bin/eslint.js app"
   },
@@ -27,6 +27,7 @@
     "mongoose": "https://registry.npmjs.org/mongoose/-/mongoose-4.1.8.tgz",
     "morgan": "^1.6.1",
     "nodemon": "^1.7.1",
+    "pluralize": "^1.2.1",
     "rewire": "^2.3.4",
     "sinon": "^1.17.1",
     "supertest": "^1.1.0"
