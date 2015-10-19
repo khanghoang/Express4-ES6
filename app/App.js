@@ -1,11 +1,10 @@
 import express from 'express';
 import Bar from './bar';
 import connectToDatabase from './config/database';
-import mongoose from 'mongoose';
+import Mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import UserController from './controllers/UserController';
-import errorHandler from 'errorhandler';
 import path from 'path';
 import fs from 'fs';
 import pluralize from 'pluralize';
@@ -45,10 +44,10 @@ class App {
 
   async loadModels() {
     let readdirAsync = Promise.promisify(fs.readdir);
-    let files = await readdirAsync(path.resolve(__dirname, "./models"));
-    for(let i = 0; i < files.length; i ++) {
+    let files = await readdirAsync(path.resolve(__dirname, './models'));
+    for (let i = 0; i < files.length; i++) {
       let file = files[i];
-      let stringFile = './models/' + file
+      let stringFile = './models/' + file;
       let modelName = pluralize(file.replace('.js', ''));
       global[modelName] = require(stringFile);
     }
@@ -56,6 +55,7 @@ class App {
 
   start() {
     let app = this.express;
+    let mongoose = this.mongoose || Mongoose;
     connectToDatabase(app, mongoose);
 
     app.use(bodyParser.urlencoded({extended: true}));
@@ -93,9 +93,9 @@ class App {
           return next(err);
         }
 
-        console.error(err.stack)
+        console.error(err.stack);
         next(err);
-      })
+      });
     }
 
     // handle error
