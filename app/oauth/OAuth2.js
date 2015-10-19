@@ -1,7 +1,9 @@
 import OAuth2orize from 'oauth2orize';
 import Passport from 'passport';
 import ClientManager from '../managers/ClientManager';
-import AuthorizationManager from '../managers/AuthorizationManager';
+import AuthorizationCodeManager from '../managers/AuthorizationManager';
+import login from 'connect-ensure-login';
+import utils from './utils';
 
 class OAuth2Server {
   static sharedInstance(opt) {
@@ -20,12 +22,13 @@ class OAuth2Server {
     let oauth2orize = opt.oauth2orize || OAuth2orize;
     let passport = opt.passport || Passport;
     let clientManager = opt.clientManager || ClientManager;
-    let AuthorizationManager = opt.authorizationManager || AuthorizationManager;
+    let authorizationCodeManager = opt.authorizationCodeManager ||
+      AuthorizationCodeManager;
 
     this.oauth2orize = oauth2orize;
     this.passport = passport;
     this.clientManager = clientManager;
-    this.authorizationManager = authorizationManager;
+    this.authorizationCodeManager = authorizationCodeManager;
 
     this.instance = {};
   }
@@ -36,49 +39,69 @@ class OAuth2Server {
     });
 
     this.server.deserializeClient((id, done) => {
-      this.clientManager.find(id, () => {
-        if (err) { return done(err); }
-        return done(null, client);
-      })
-    });
-
-    this.server.grant(OAuth2orize.grant.code((client, redirectURI, user, ares, done) => {
-      let code = utils.uid(16);
-
-      AuthorizationCodeManager.save(code, client._id, redirectURI, user._id, function(err) {
-        if (err) { return done(err); }
-        done(null, code);
-      })
-    }));
-
-    this.server.exchange(OAuth2orize.exchange.code(function(client, code, redirectURI, done) {
-      AuthorizationCodeManager.find(code, function(err, authCode) {
+      this.clientManager.find(id, (err, clients) => {
         if (err) {
           return done(err);
         }
+        return done(null, clients);
+      });
+    });
 
-        if (!auth) {
-          return done(null, false);
-        }
+    this.server.grant(
+      OAuth2orize.grant.code((client, redirectURI, user, ares, done) => {
+        let code = utils.uid(16);
 
-        if (client._id !== authCode.client) {
-          return done(null, false);
-        }
-
-        if (redirectURI !== authCode.redirectURI) {
-          return done(null, false);
-        }
-
-        AuthorizationCodeManager.delete(code, function(){
-          if(err) { return done(err); }
-          let token = utils.uid(256);
-          AuthorizationCodeManager.save(token, authCode.user, authCode.client, function(err) {
-            if(err) { return done(err); }
-            done(null, token);
-          })
-        })
+        AuthorizationCodeManager.save(
+          code,
+          client._id,
+          redirectURI,
+          user._id,
+          (err) => {
+            if (err) {
+              return done(err);
+            }
+            done(null, code);
+          });
       })
-    }))
+    );
+
+    this.server.exchange(OAuth2orize.exchange.code(
+      function(client, code, redirectURI, done) {
+        AuthorizationCodeManager.find(code, function(err, authCode) {
+          if (err) {
+            return done(err);
+          }
+
+          if (!authCode) {
+            return done(null, false);
+          }
+
+          if (client._id !== authCode.client) {
+            return done(null, false);
+          }
+
+          if (redirectURI !== authCode.redirectURI) {
+            return done(null, false);
+          }
+
+          AuthorizationCodeManager.delete(code, function() {
+            if (err) {
+              return done(err);
+            }
+            let token = utils.uid(256);
+            AuthorizationCodeManager.save(
+              token,
+              authCode.user,
+              authCode.client,
+              function(savingError) {
+                if (savingError) {
+                  return done(savingError);
+                }
+                done(null, token);
+              });
+          });
+        });
+      }));
   }
 
   authorization = () => {
@@ -86,7 +109,9 @@ class OAuth2Server {
       login.ensureLoggedIn(),
       this.server.authorization(function(clientID, redirectURI, done) {
         ClientManager.findByClientID(clientID, function(err, client) {
-          if (err) { return done(err); }
+          if (err) {
+            return done(err);
+          }
           return done(null, client, redirectURI);
         });
       }),
@@ -97,21 +122,23 @@ class OAuth2Server {
           client: req.oauth2.client
         });
       }
-    ]
+    ];
   }
 
   decision = () => {
     return [
       login.ensureLoggedIn(),
       this.server.decision()
-    ]
+    ];
   }
 
   token = () => {
     return [
-      passport.authenicate(['basic', 'oauth2-client-password'], { session: false }),
+      Passport.authenicate(['basic', 'oauth2-client-password'], { session: false }),
       this.server.token(),
-      this.server.errorHandler();
-    ]
+      this.server.errorHandler()
+    ];
   }
 }
+
+export default OAuth2Server;
