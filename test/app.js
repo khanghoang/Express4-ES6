@@ -3,10 +3,15 @@ import App from '../app/App';
 import request from 'supertest';
 import assert from 'assert';
 import sinon from 'sinon';
+import Promise from 'bluebird';
+var mongoose = require('mongoose');
+var mockgoose = require('mockgoose');
 
 var testConfig = require('../app/config/test.config.js');
 
 let app, express, mailClient;
+
+mockgoose(mongoose);
 
 before(function* () {
   // mock mailClient
@@ -17,13 +22,35 @@ before(function* () {
 
   app.config = testConfig;
   app.mailClient = mailClient;
+  app.mongoose = mongoose;
 
   express = app.express;
+
+  // order matter
   yield app.run();
+
+  for (var i = 0, l = 5; i < l; i++) {
+    let user = new Users({username: 'khang'});
+    let saveAsync = Promise.promisify(user.save);
+    yield saveAsync.bind(user);
+  }
+
 });
 
 
 describe('Test endpoints', () => {
+
+  it('mock save user successfully using Mockgoose', function* () {
+    var user = new Users({username: 'khang'});
+    let saveAsync = Promise.promisify(user.save);
+    var result = yield saveAsync.bind(user);
+    assert(result, 1);
+  });
+
+  it('get users from db', function* () {
+    let users = yield Users.findAsync({});
+    assert(users.length, 6);
+  });
 
   it('get index page', (done) => {
     request(express)
