@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "start": "gulp babel && node dist/server.js",
     "test": "mocha --compilers js:babel/register --require test/support/env --require co-mocha --require babelhook --reporter spec --bail test/",
     "test-co": "istanbul cover _mocha -- --require babel/register test/support/env --reporter dot --check-leaks test",
     "lint": "node_modules/eslint/bin/eslint.js app"
@@ -13,6 +14,7 @@
   "repository": "git@github.com:khanghoang/Express4-ES6.git",
   "dependencies": {
     "babel": "^5.8.23",
+    "babel-core": "^5.8.25",
     "babel-runtime": "^5.8.25",
     "bluebird": "^2.10.2",
     "body-parser": "^1.14.1",
