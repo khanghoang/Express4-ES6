@@ -48,12 +48,14 @@ class App {
     for (let i = 0; i < files.length; i++) {
       let file = files[i];
       let stringFile = './models/' + file;
-      let modelName = pluralize(file.replace('.js', ''));
-      global[modelName] = require(stringFile);
+      if (!~file.indexOf('.js.map')) {
+        let modelName = pluralize(file.replace('.js.map', ''));
+        global[modelName] = require(stringFile);
+      }
     }
   }
 
-  start() {
+  start = async () => {
     let app = this.express;
     let mongoose = this.mongoose || Mongoose;
     connectToDatabase(app, mongoose);
@@ -126,12 +128,13 @@ class App {
 
     let config = this.config;
 
-    const server = app.listen(config.server.port, () => {
-      const host = server.address().address;
-      const port = server.address().port;
+    var listenAsync = Promise.promisify(app.listen);
 
-      console.log('Expess app listening at http://%s:%s', host, port);
-    });
+    let server = await listenAsync.bind(app)(config.server.port);
+    console.log(server);
+    const host = server.address().address;
+    const port = server.address().port;
+    console.log('Expess app listening at http://%s:%s', host, port);
   }
 
   run = async () => {
