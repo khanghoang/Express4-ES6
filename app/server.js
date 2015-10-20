@@ -1,6 +1,9 @@
 import App from './App';
+import Promise from 'bluebird';
 import config from './config/config';
 
-let app = App.sharedInstance();
-app.config = config;
-app.run();
+Promise.coroutine(function* () {
+  let app = App.sharedInstance();
+  app.config = config;
+  yield app.run();
+})();
