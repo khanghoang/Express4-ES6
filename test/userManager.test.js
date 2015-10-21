@@ -3,8 +3,9 @@ require('co-mocha');
 import UserManager from '../app/managers/UserManager';
 import assert from 'assert';
 import sinon from 'sinon';
+import User from '../app/models/User';
 
-const userManager = UserManager.sharedInstance();
+const userManager = UserManager.sharedInstance({userClass: User});
 
 describe('User Manager', function() {
   it('should create user successfully', function() {
