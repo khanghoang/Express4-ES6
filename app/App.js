@@ -12,6 +12,10 @@ import Promise from 'bluebird';
 import passport from 'passport';
 import errorHandler from 'errorhandler';
 import UserManager from './managers/UserManager';
+import requireLogin from './policies/requireLogin';
+import session from 'express-session';
+import cookieParser from 'cookie-parser';
+import MongoStore from 'connect-mongo';
 import {Strategy as LocalStrategy} from 'passport-local';
 
 class App {
@@ -120,6 +124,10 @@ class App {
       });
     });
 
+    app.get('/admin', requireLogin, function(req, res) {
+      res.send('hello admin');
+    });
+
     let userController = new UserController(Users);
 
     app.get('/api/users', userController.index);
@@ -193,6 +201,24 @@ class App {
     this.express.use(passport.initialize());
     this.express.use(passport.session({
       maxAge: new Date(Date.now() + 3600000)
+    }));
+
+    let mongoStore = MongoStore({session: session});
+
+    this.express.use(cookieParser('notagoodsecretnoreallydontusethisone'));
+    this.express.use(session({
+      name: ['abc', '.sid'].join(),
+      resave: true,
+      saveUninitialized: true,
+      secret: 'khangkhang',
+      genid: function() {
+        // use UUIDs for session IDs
+        return require('node-uuid').v4();
+      },
+      store: new mongoStore({
+        url: this.config.database.url,
+        collection: 'sessions'
+      })
     }));
 
     await this.loadModels();

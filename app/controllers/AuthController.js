@@ -1,8 +1,13 @@
 import passport from 'passport';
+import _ from 'lodash';
 
 class AuthController {
   static login = (req, res) => {
-    res.render('oauth/login', {
+    if (_.get(req, 'session.passport.user', null)) {
+      return res.redirect('/admin');
+    }
+
+    return res.render('oauth/login', {
     });
   }
 
@@ -12,7 +17,9 @@ class AuthController {
   }
 
   static process = (req, res, next) => {
-    passport.authenticate('local', function(err, user, info) {
+    // there is 'info' parameter as 3rd one but we don't
+    // need it for now
+    passport.authenticate('local', function(err, user) {
       if (err || !user) {
         return res.status(401).send({
           message: 'login failed'
@@ -23,9 +30,8 @@ class AuthController {
         if (loginError) {
           return res.status(401).send(err);
         }
-        return res.send({
-          message: 'login successful'
-        });
+
+        res.redirect('/admin');
       });
 
     })(req, res, next);
