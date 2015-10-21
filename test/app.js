@@ -117,6 +117,12 @@ describe('Test endpoints', () => {
 });
 
 describe('Test authorization', () => {
+  it('Login page', (done) => {
+    request(express)
+      .get('/login')
+      .expect(200)
+      .end(done);
+  });
   it('the enpoint of token oauth is /oauth/token', (done) => {
     request(express)
       .get('/oauth/token')
