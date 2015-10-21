@@ -4484,6 +4484,11 @@
         }
       }
     },
+    "lodash": {
+      "version": "3.10.1",
+      "from": "lodash@*",
+      "resolved": "https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz"
+    },
     "method-override": {
       "version": "2.3.5",
       "from": "method-override@*",
