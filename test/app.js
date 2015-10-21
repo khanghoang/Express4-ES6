@@ -29,12 +29,9 @@ before(function* () {
   // order matter
   yield app.run();
 
-  for (var i = 0, l = 5; i < l; i++) {
-    let user = new Users({username: 'khang'});
-    let saveAsync = Promise.promisify(user.save);
-    yield saveAsync.bind(user);
-  }
-
+  let user = new Users({username: 'khanghoang', password: '123456'});
+  let saveAsync = Promise.promisify(user.save);
+  yield saveAsync.bind(user);
 });
 
 
@@ -123,9 +120,13 @@ describe('Test authorization', () => {
       .expect(200)
       .end(done);
   });
-  it('the enpoint of token oauth is /oauth/token', (done) => {
+
+  it('Login successfully by local username and password', (done) => {
     request(express)
-      .get('/oauth/token')
+      .post('/login')
+      .type('form')
+      .send({username: 'khanghoang',
+            password: '123456'})
       .expect(200)
       .end(done);
   });
