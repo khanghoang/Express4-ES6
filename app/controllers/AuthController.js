@@ -12,22 +12,16 @@ class AuthController {
   }
 
   static process = (req, res, next) => {
-    console.log('process');
-    console.log(req.body);
     passport.authenticate('local', function(err, user, info) {
-      console.log('info', info);
-      console.log('err', err);
-      console.log('user', user);
       if (err || !user) {
-        return res.send({
+        return res.status(401).send({
           message: 'login failed'
         });
       }
 
       req.logIn(user, function(loginError) {
-        console.log(loginError);
         if (loginError) {
-          return res.send(err);
+          return res.status(401).send(err);
         }
         return res.send({
           message: 'login successful'
