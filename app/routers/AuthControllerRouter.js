@@ -8,6 +8,7 @@ class AuthControllerRouter {
     // this is the route
     this.router.get('/login', AuthController.login);
     this.router.get('/logout', AuthController.logout);
+    this.router.post('/login', AuthController.process);
 
     return this.router;
   }
