@@ -42,6 +42,22 @@ class App {
     this.instance = {};
   }
 
+  async loadRouters() {
+    let readdirAsync = Promise.promisify(fs.readdir);
+    let files = await readdirAsync(path.resolve(__dirname, './routers'));
+    for (let i = 0; i < files.length; i++) {
+      let file = files[i];
+      let stringFile = './routers/' + file;
+      if (!~stringFile.indexOf('.js.map')) {
+        let router = stringFile.replace('.js', '');
+        router = require(router);
+        this.express.use('/', router.route());
+      }
+    }
+
+    console.log('finish loading routers');
+  }
+
   async loadModels() {
     let readdirAsync = Promise.promisify(fs.readdir);
     let files = await readdirAsync(path.resolve(__dirname, './models'));
@@ -67,6 +83,9 @@ class App {
 
     app.use(bodyParser.urlencoded({extended: true}));
     app.use(methodOverride());
+
+    app.set('view engine', 'jade');
+    app.set('views', path.resolve(__dirname, '../app/views'));
 
     app.get('/', (req, res) => {
       res.send('Hello world' + Bar.foo);
@@ -133,8 +152,6 @@ class App {
 
     let config = this.config;
 
-    // console.log(config);
-
     var listenAsync = Promise.promisify(app.listen);
 
     await listenAsync.bind(app)(config.server.port);
@@ -143,6 +160,7 @@ class App {
 
   run = async () => {
     await this.loadModels();
+    await this.loadRouters();
     await this.start();
   }
 
