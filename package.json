@@ -16,7 +16,6 @@
     "babel": "^5.8.23",
     "babel-core": "^5.8.25",
     "babel-runtime": "^5.8.25",
-    "bcrypt": "^0.8.5",
     "bluebird": "^2.10.2",
     "body-parser": "^1.14.1",
     "crypto": "0.0.3",
