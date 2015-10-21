@@ -96,7 +96,7 @@ class App {
     });
 
     passport.use(new LocalStrategy(
-      Promise.coroutine(function *(username, password, done) {
+      Promise.coroutine(function* (username, password, done) {
         console.log('username', username, 'password', password);
         var user = yield UserManager.sharedInstance().findByUsername(username);
         if (!user) {
@@ -115,10 +115,10 @@ class App {
     });
 
     passport.deserializeUser(function(id, done) {
-      UserManager.find(id, function(id, done) {
+      UserManager.find(id, function(err, user) {
         done(err, user);
       });
-    })
+    });
 
     let userController = new UserController(Users);
 
