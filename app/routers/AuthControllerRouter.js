@@ -5,11 +5,9 @@ class AuthControllerRouter {
   static route() {
     this.router = router();
 
-    this.authController = new AuthController();
-
     // this is the route
-    this.router.get('/login', this.authController.login);
-    this.router.get('/logout', this.authController.logout);
+    this.router.get('/login', AuthController.login);
+    this.router.get('/logout', AuthController.logout);
 
     return this.router;
   }
