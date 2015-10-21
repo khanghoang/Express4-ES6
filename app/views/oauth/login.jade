@@ -1,13 +1,12 @@
 .container
-  form.form-signin
+  form(name="login", action="/login", method="POST")
     h2.form-signin-heading Please sign in
       label.sr-only(for='inputEmail') Email address
-        form(name="login", action="/login", method="POST")
-          input#inputEmail.form-control(type='text', placeholder='Email address', required='', autofocus='')
-          label.sr-only(for='inputPassword') Password
-          input#inputPassword.form-control(type='password', placeholder='Password', required='')
-          .checkbox
-            label
-              input(type='checkbox', value='remember-me')
-              |  Remember me
-          button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign in
+        input#inputEmail.form-control(type='text', placeholder='Email address', required='', autofocus='', name='username')
+        label.sr-only(for='inputPassword') Password
+        input#inputPassword.form-control(type='password', placeholder='Password', required='', name='password')
+        .checkbox
+          label
+            input(type='checkbox', value='remember-me')
+            |  Remember me
+        button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign in
