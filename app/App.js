@@ -10,6 +10,7 @@ import fs from 'fs';
 import pluralize from 'pluralize';
 import Promise from 'bluebird';
 import passport from 'passport';
+import errorHandler from 'errorhandler';
 import UserManager from './managers/UserManager';
 import {Strategy as LocalStrategy} from 'passport-local';
 
@@ -137,21 +138,6 @@ class App {
       next(err);
     });
 
-    if (process.env.NODE_ENV === 'development' ||
-       process.env.NODE_ENV === 'test') {
-      // app.use(errorHandler());
-      // next(err);
-    } else {
-      app.use((err, req, res, next) => {
-        if (err.status === 404) {
-          return next(err);
-        }
-
-        console.error(err.stack);
-        next(err);
-      });
-    }
-
     // handle error
     app.use((err, req, res, next) => {
       if (!process.env.NODE_ENV === 'production') {
@@ -177,6 +163,21 @@ class App {
 
       return res.send(message);
     });
+
+    if (process.env.NODE_ENV === 'development' ||
+       process.env.NODE_ENV === 'test') {
+      app.use(errorHandler());
+    } else {
+      app.use((err, req, res, next) => {
+        if (err.status === 404) {
+          return next(err);
+        }
+
+        console.error(err.stack);
+        next(err);
+      });
+    }
+
 
     let config = this.config;
 
