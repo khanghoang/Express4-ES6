@@ -5,7 +5,7 @@ const config = {
   },
 
   database: {
-    url: 'mongodb://localhost/euro_sports'
+    url: 'mongodb://localhost/database'
   }
 };
 
