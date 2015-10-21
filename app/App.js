@@ -9,6 +9,9 @@ import path from 'path';
 import fs from 'fs';
 import pluralize from 'pluralize';
 import Promise from 'bluebird';
+import passport from 'passport';
+import UserManager from './managers/UserManager';
+import {Strategy as LocalStrategy} from 'passport-local';
 
 class App {
 
@@ -82,6 +85,7 @@ class App {
     connectToDatabase(app, mongoose);
 
     app.use(bodyParser.urlencoded({extended: true}));
+    app.use(bodyParser.json());
     app.use(methodOverride());
 
     app.set('view engine', 'jade');
@@ -90,6 +94,31 @@ class App {
     app.get('/', (req, res) => {
       res.send('Hello world' + Bar.foo);
     });
+
+    passport.use(new LocalStrategy(
+      Promise.coroutine(function *(username, password, done) {
+        console.log('username', username, 'password', password);
+        var user = yield UserManager.sharedInstance().findByUsername(username);
+        if (!user) {
+          return done(null, false);
+        }
+        var validPassword = user.authenticate(password);
+        if (!validPassword) {
+          return done(null, false);
+        }
+        return done(null, user);
+      })
+    ));
+
+    passport.serializeUser(function(user, done) {
+      done(null, user._id);
+    });
+
+    passport.deserializeUser(function(id, done) {
+      UserManager.find(id, function(id, done) {
+        done(err, user);
+      });
+    })
 
     let userController = new UserController(Users);
 
@@ -159,6 +188,13 @@ class App {
   }
 
   run = async () => {
+    this.express.use(bodyParser.urlencoded());
+
+    this.express.use(passport.initialize());
+    this.express.use(passport.session({
+      maxAge: new Date(Date.now() + 3600000)
+    }));
+
     await this.loadModels();
     await this.loadRouters();
     await this.start();

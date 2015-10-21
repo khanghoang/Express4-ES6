@@ -1,4 +1,5 @@
 import Promise from 'bluebird';
+import Users from '../models/User';
 
 class UserManager {
 
@@ -14,8 +15,7 @@ class UserManager {
   constructor(opt) {
     // default
     opt = opt || {};
-    // let userClass = opt.userClass || Users;
-    let userClass = opt.userClass || {};
+    let userClass = opt.userClass || Users;
 
     this.userClass = Promise.promisifyAll(userClass);
     this.instance = {};
@@ -36,11 +36,11 @@ class UserManager {
   }
 
   async findByID(userID) {
-    return await this.User.findOneAsync({_id: userID});
+    return await this.User().findOneAsync({_id: userID});
   }
 
   async findByUsername(username) {
-    return await this.User.findOneAsync({username: username});
+    return await this.User().findOneAsync({username: username});
   }
 }
 

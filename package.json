@@ -19,6 +19,7 @@
     "bcrypt": "^0.8.5",
     "bluebird": "^2.10.2",
     "body-parser": "^1.14.1",
+    "crypto": "0.0.3",
     "errorhandler": "^1.4.2",
     "express": "^4.13.3",
     "gulp": "^3.9.0",

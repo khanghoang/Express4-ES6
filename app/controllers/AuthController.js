@@ -11,9 +11,13 @@ class AuthController {
     });
   }
 
-  static process = (req, res) => {
+  static process = (req, res, next) => {
+    console.log('process');
+    console.log(req.body);
     passport.authenticate('local', function(err, user, info) {
-      console.log(info);
+      console.log('info', info);
+      console.log('err', err);
+      console.log('user', user);
       if (err || !user) {
         return res.send({
           message: 'login failed'
@@ -21,6 +25,7 @@ class AuthController {
       }
 
       req.logIn(user, function(loginError) {
+        console.log(loginError);
         if (loginError) {
           return res.send(err);
         }
@@ -28,7 +33,8 @@ class AuthController {
           message: 'login successful'
         });
       });
-    })(req, res);
+
+    })(req, res, next);
   }
 
   static doLogout = (req, res) => {

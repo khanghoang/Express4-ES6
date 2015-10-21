@@ -3,16 +3,22 @@ import {Strategy as LocalStrategy} from 'passport-local';
 import {Strategy as BasicStrategy} from 'passport-http';
 import {Strategy as ClientPasswordStrategy} from 'passport-oauth2-client-password';
 import {Strategy as BearerStategy} from 'passport-http-bearer';
+import bcrypt from 'bcrypt';
+import UserManager from '../managers/UserManager';
 
-passport.user(new LocalStrategy(
+passport.use(new LocalStrategy(
   function(username, password, done) {
     UserManager.findByUsername(username, function(err, user) {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false); }
-      if (user.password !== password ) {
+      if (err) {
+        return done(err);
+      }
+      if (!user) {
         return done(null, false);
       }
-
+      var validPassword = user.authenticate(password);
+      if (!validPassword) {
+        return done(null, false);
+      }
       return done(null, user);
     });
   }
