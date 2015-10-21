@@ -51,7 +51,7 @@ class App {
     for (let i = 0; i < files.length; i++) {
       let file = files[i];
       let stringFile = './routers/' + file;
-      if (!~stringFile.indexOf('.js.map')) {
+      if (stringFile.indexOf('.js.map') === -1) {
         let router = stringFile.replace('.js', '');
         router = require(router);
         this.express.use('/', router.route());
@@ -67,7 +67,7 @@ class App {
     for (let i = 0; i < files.length; i++) {
       let file = files[i];
       let stringFile = './models/' + file;
-      if (!~file.indexOf('.js.map')) {
+      if (file.indexOf('.js.map') === -1) {
         let modelName = pluralize(file.replace('.js', ''));
         global[modelName] = require(stringFile);
       }
@@ -97,7 +97,6 @@ class App {
 
     passport.use(new LocalStrategy(
       Promise.coroutine(function* (username, password, done) {
-        console.log('username', username, 'password', password);
         var user = yield UserManager.sharedInstance().findByUsername(username);
         if (!user) {
           return done(null, false);
