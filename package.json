@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "gulp babel && node dist/server.js",
-    "test": "mocha --compilers js:babel/register --require test/support/env --require co-mocha --require babelhook --reporter spec --bail test/",
+    "test": "gulp babel && mocha --compilers js:babel/register --require test/support/env --require co-mocha --require babelhook --reporter spec --bail test/",
     "test-co": "istanbul cover _mocha -- --require babel/register test/support/env --reporter dot --check-leaks test",
     "lint": "node_modules/eslint/bin/eslint.js app"
   },
@@ -26,6 +26,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-nodemon": "^2.0.4",
     "gulp-sourcemaps": "^1.5.2",
+    "jade": "^1.11.0",
     "method-override": "^2.3.5",
     "mongoose": "https://registry.npmjs.org/mongoose/-/mongoose-4.1.8.tgz",
     "morgan": "^1.6.1",
