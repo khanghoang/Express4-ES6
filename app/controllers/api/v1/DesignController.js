@@ -1,6 +1,10 @@
 import multer from 'multer';
 import s3 from 'multer-s3';
 
+/*eslint-disable */
+const URL = 'https://s3-ap-southeast-1.amazonaws.com/fox-build-your-f1/uploads/';
+/*eslint-enable */
+
 const upload = multer({
   storage: s3({
     dirname: 'uploads',
@@ -9,36 +13,43 @@ const upload = multer({
     accessKeyId: 'AKIAIE6SUIZCTS3DO4PA',
     region: 'ap-southeast-1',
     filename: function(req, file, cb) {
-      // try to get design id and assign to this as
-      // file name
-      // cb(null, Date.now());
       cb(null, req.designID);
-      console.log(req.designID);
     }
   })
 });
 
 class DesignController {
   static uploadDesign = () => {
+    let design;
     return [
-      function(req) {
-        req.designID = this.getDesignID();
-        console.log('here req', req);
-        console.log(this.getDesignID());
+      function(req, res, next) {
+        design = new Designs({});
+        req.designID = DesignController.getDesignID(design);
         next();
       },
+
       upload.single('design'),
+
+      // update design model
+      function(req, res, next) {
+        design.imageURL = URL + design._id;
+        next();
+      },
+
       function(req, res) {
-        return res.send('design');
+        design.save(function() {
+          return res.send(design.imageURL);
+        });
       }
     ];
   }
 
-  getDesignID(designModel) {
+  static getDesignID(designModel) {
     return designModel._id;
   }
 
-  generateNewDesign(params) {
+  static generateNewDesign(params) {
+    params = params || {};
     return new Designs(params);
   }
 }

@@ -6,7 +6,8 @@
     'mocha': true
   },
   "globals": {
-    'Users': true
+    'Users': true,
+    'Designs': true
   },
   "ecmaFeatures": {
     'classes': true,
