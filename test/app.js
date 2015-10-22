@@ -5,6 +5,7 @@ import {expect} from 'chai';
 import session from 'supertest-session';
 import sinon from 'sinon';
 import Promise from 'bluebird';
+import path from 'path';
 var mongoose = require('mongoose');
 var mockgoose = require('mockgoose');
 
@@ -169,8 +170,8 @@ describe('Design API', () => {
   it('Should upload design successfully', (done) => {
     express
       .post('/v1/design/upload')
-      .attach('design', '../image/test.jpg')
-      .field({name: 'khanghoang'})
+      .attach('design', path.join(__dirname, '/image/test.jpg'))
+      // .field({name: 'khanghoang'})
       .expect(200)
       .end(done);
   });
