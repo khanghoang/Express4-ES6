@@ -165,6 +165,17 @@ describe('Test authorization', () => {
   });
 });
 
+describe('Design API', () => {
+  it('Should upload design successfully', (done) => {
+    express
+      .post('/v1/design/upload')
+      .attach('design', '../image/test.jpg')
+      .field({name: 'khanghoang'})
+      .expect(200)
+      .end(done);
+  });
+});
+
 after(() => {
   // logout by deleting cookies
   express.cookie = null;
