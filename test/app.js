@@ -181,7 +181,6 @@ describe('Design API', () => {
       .get('/v1/design')
       .expect(200)
       .end((err, res) => {
-        console.log(res.text);
         expect(JSON.parse(res.text).data.length).to.equal(1);
         done();
       });

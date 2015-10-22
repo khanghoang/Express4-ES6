@@ -156,6 +156,10 @@ class App {
         next();
       }
 
+      if (err.toString() !== 'Error: this is expected error') {
+        console.log(err.stack);
+      }
+
       let status = err.status || 500;
       let message = err.message || 'Opps, there was an error';
 
@@ -181,7 +185,6 @@ class App {
           return next(err);
         }
 
-        console.error(err.stack);
         next(err);
       });
     }

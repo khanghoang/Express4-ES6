@@ -6,9 +6,6 @@ class DesignControllerRouter {
     this.router = router();
 
     // this is the route
-    // this.router.post('/v1/design/upload', function(req, res) {
-      // res.send('abc')
-    // });
     this.router.post('/v1/design/upload', DesignController.uploadDesign());
     this.router.get('/v1/design', DesignController.getDesigns);
 

@@ -1,6 +1,8 @@
 import multer from 'multer';
 import s3 from 'multer-s3';
 
+let config = require('../../../config/config');
+
 /*eslint-disable */
 const URL = 'https://s3-ap-southeast-1.amazonaws.com/fox-build-your-f1/uploads/';
 /*eslint-enable */
@@ -9,8 +11,8 @@ const upload = multer({
   storage: s3({
     dirname: 'uploads',
     bucket: 'fox-build-your-f1',
-    secretAccessKey: 'WY9HsXfYXMHfxebntOeQfRiexF03tHPReoQOh5YI',
-    accessKeyId: 'AKIAIE6SUIZCTS3DO4PA',
+    secretAccessKey: config.s3.secretAccessKey,
+    accessKeyId: config.s3.accessKeyId,
     region: 'ap-southeast-1',
     filename: function(req, file, cb) {
       cb(null, req.designID);
