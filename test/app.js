@@ -175,6 +175,17 @@ describe('Design API', () => {
       .expect(200)
       .end(done);
   });
+
+  it('Should get list of designs that just uploaded', (done) => {
+    express
+      .get('/v1/design')
+      .expect(200)
+      .end((err, res) => {
+        console.log(res.text);
+        expect(JSON.parse(res.text).data.length).to.equal(1);
+        done();
+      });
+  });
 });
 
 after(() => {

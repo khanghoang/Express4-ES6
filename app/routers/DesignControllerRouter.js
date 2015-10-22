@@ -10,6 +10,7 @@ class DesignControllerRouter {
       // res.send('abc')
     // });
     this.router.post('/v1/design/upload', DesignController.uploadDesign());
+    this.router.get('/v1/design', DesignController.getDesigns);
 
     return this.router;
   }

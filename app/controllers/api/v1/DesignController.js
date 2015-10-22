@@ -44,6 +44,11 @@ class DesignController {
     ];
   }
 
+  static getDesigns = async (req, res) => {
+    var designs = await Designs.findAsync({});
+    return res.status(200).json({data: designs});
+  }
+
   static getDesignID(designModel) {
     return designModel._id;
   }
