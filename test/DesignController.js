@@ -2,11 +2,12 @@ require('co-mocha');
 
 import {expect} from 'chai';
 import connectToDatabase from '../app/config/database';
-
+import loadModels from '../app/utils/loadModels';
+import sinon from 'sinon';
 const mongoose = require('mongoose');
 const mockgoose = require('mockgoose');
 
-let Design;
+let DesignController;
 
 // mock the mongoose
 mockgoose(mongoose);
@@ -14,30 +15,45 @@ mockgoose(mongoose);
 before(function* () {
   // manually connect MOCKGOOSE db
   connectToDatabase({}, mongoose);
-
-  // because of mockgoose, we need to define Design
-  // model again
-  Design = require('../app/models/Design');
+  loadModels();
+  DesignController = require('../app/controllers/api/v1/DesignController');
 });
 
 describe('Design Controller', function() {
   it('get all approved designs', function* () {
-    let design = new Design({status: 'approved'});
-    try {
+
+    var rawDesigns = [
+      {
+        status: 'approved'
+      },
+      {
+        status: 'pending'
+      },
+      {
+        status: 'rejected'
+      }
+    ];
+
+    for (let i = 0; i < rawDesigns.length; i++) {
+      let d = rawDesigns[i];
+      let design = new Designs(d);
       yield design.save();
-    } catch (e) {
-      expect(e).to.be.null;
     }
 
-    yield design.remove();
+    let res = {
+      status: function() {
+        return this;
+      },
+      json: function(r) {
+        expect(r.data.length).to.be.equal(1);
+      }
+    };
+
+    yield DesignController.getAllApprovedDesigns({}, res, {});
   });
 
-  it('should raise error when type is not valid', function* () {
-    let design = new Design({status: 'invalid-type'});
-    try {
-      yield design.save();
-    } catch (err) {
-      expect(err).to.not.be.null;
-    }
-  });
+});
+
+after(function() {
+  mockgoose.reset('Designs');
 });
