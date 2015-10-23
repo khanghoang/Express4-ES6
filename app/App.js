@@ -81,65 +81,8 @@ class App {
     console.log('finish loading modules');
   }
 
-  start = async () => {
-
-    console.log('start');
-
+  loadErrorHandlers = async () => {
     let app = this.express;
-    let mongoose = this.mongoose || Mongoose;
-    connectToDatabase(app, mongoose);
-
-    app.use(bodyParser.urlencoded({extended: true}));
-    app.use(bodyParser.json());
-    app.use(methodOverride());
-
-    app.set('view engine', 'jade');
-    app.set('views', path.resolve(__dirname, '../app/views'));
-
-    app.get('/', (req, res) => {
-      res.send('Hello world' + Bar.foo);
-    });
-
-    passport.use(new LocalStrategy(
-      Promise.coroutine(function* (username, password, done) {
-        var user = yield UserManager.sharedInstance().findByUsername(username);
-        if (!user) {
-          return done(null, false);
-        }
-        var validPassword = user.authenticate(password);
-        if (!validPassword) {
-          return done(null, false);
-        }
-        return done(null, user);
-      })
-    ));
-
-    passport.serializeUser(function(user, done) {
-      done(null, user._id);
-    });
-
-    passport.deserializeUser(function(id, done) {
-      UserManager.find(id, function(err, user) {
-        done(err, user);
-      });
-    });
-
-    app.get('/admin', requireLogin, function(req, res) {
-      res.send('hello admin');
-    });
-
-    let userController = new UserController(Users);
-
-    app.get('/api/users', userController.index);
-
-    app.get('/test', (req, res) => {
-      res.send('Hello world');
-    });
-
-    app.get('/somewierdurl', (req, res, next) => {
-      next(new Error('this is expected error'));
-    });
-
     // send mail
     app.use((err, req, res, next) => {
       this.mailClient && this.mailClient.sendMail('hoangtrieukhang@gmail');
@@ -189,28 +132,14 @@ class App {
       });
     }
 
-
-    let config = this.config;
-
-    let server = await this.startServer(app, config.server.port);
-    this.server = server;
-    console.log('Server has started');
   }
 
-  startServer(app, port) {
-    return new Promise(function(resolve) {
-      var server = app.listen(port, function() {
-        resolve(server);
-      });
-    });
-  }
 
-  stop() {
-    this.server.close();
-  }
+  loadMiddlewares = async () => {
 
-  run = async () => {
-    this.express.use(bodyParser.urlencoded());
+    this.express.use(bodyParser.urlencoded({extended: true}));
+    this.express.use(bodyParser.json());
+    this.express.use(methodOverride());
 
     this.express.use(passport.initialize());
     this.express.use(passport.session({
@@ -235,8 +164,93 @@ class App {
       })
     }));
 
+
+    console.log('start');
+
+    let app = this.express;
+    let mongoose = this.mongoose || Mongoose;
+    app.set('view engine', 'jade');
+    app.set('views', path.resolve(__dirname, '../app/views'));
+
+    passport.use(new LocalStrategy(
+      Promise.coroutine(function* (username, password, done) {
+        var user = yield UserManager.sharedInstance().findByUsername(username);
+        if (!user) {
+          return done(null, false);
+        }
+        var validPassword = user.authenticate(password);
+        if (!validPassword) {
+          return done(null, false);
+        }
+        return done(null, user);
+      })
+    ));
+
+    passport.serializeUser(function(user, done) {
+      done(null, user._id);
+    });
+
+    passport.deserializeUser(function(id, done) {
+      UserManager.find(id, function(err, user) {
+        done(err, user);
+      });
+    });
+
+
+  }
+
+  start = async () => {
+
+    let app = this.express;
+    let config = this.config;
+
+    let server = await this.startServer(app, config.server.port);
+    this.server = server;
+    console.log('Server has started');
+  }
+
+  startServer(app, port) {
+    return new Promise(function(resolve) {
+      var server = app.listen(port, function() {
+        resolve(server);
+      });
+    });
+  }
+
+  stop() {
+    this.server.close();
+  }
+
+  run = async () => {
+    connectToDatabase({}, Mongoose);
+
+    await this.loadMiddlewares();
     await this.loadModels();
     await this.loadRouters();
+
+    let app = this.express;
+
+    app.get('/', (req, res) => {
+      res.send('Hello world' + Bar.foo);
+    });
+
+    app.get('/admin', requireLogin, function(req, res) {
+      res.send('hello admin');
+    });
+
+    let userController = new UserController(Users);
+
+    app.get('/api/users', userController.index);
+
+    app.get('/test', (req, res) => {
+      res.send('Hello world');
+    });
+
+    app.get('/somewierdurl', (req, res, next) => {
+      next(new Error('this is expected error'));
+    });
+
+    await this.loadErrorHandlers();
     await this.start();
   }
 
