@@ -26,6 +26,8 @@ before(function* () {
   app.mailClient = mailClient;
   app.mongoose = mongoose;
 
+  mockgoose.reset('Design');
+
   express = session(app.express);
 
   // order matter
@@ -87,7 +89,6 @@ describe('Test endpoints', () => {
     .accept('application/json')
     .expect(500)
     .end((err, data) => {
-      data = JSON.parse(data.text);
       assert.equal(data.message, 'this is expected error');
       done();
     });
@@ -176,9 +177,14 @@ describe('Design API', function() {
   it('Should upload design successfully', (done) => {
     express
       .post('/v1/design/upload')
+      .field('email', 'khanghoang@gmail.com')
       .attach('design', path.join(__dirname, '/image/test.jpg'))
       .expect(200)
-      .end(done);
+      .end((req, res) => {
+        console.log(res.text);
+        expect(JSON.parse(res.text).email).to.be.equal('khanghoang@gmail.com');
+        done();
+      });
   });
 
   it('Should get list of designs that just uploaded', (done) => {
@@ -186,7 +192,7 @@ describe('Design API', function() {
       .get('/v1/design')
       .expect(200)
       .end((err, res) => {
-        expect(JSON.parse(res.text).data.length).to.equal(1);
+        expect(JSON.parse(res.text).data.length).to.be.above(1);
         done();
       });
   });
