@@ -1,6 +1,7 @@
 import config from './config';
 
 const connectToDatabase = (app, mongoose) => {
+  GLOBAL.Mongoose = mongoose;
   const connect = () => {
     let options = {
       server: {
