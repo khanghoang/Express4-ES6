@@ -166,7 +166,13 @@ describe('Test authorization', () => {
   });
 });
 
-describe('Design API', () => {
+describe('Design API', function() {
+
+  // sometimes it needs more time to upload to s3
+  // and return that for you
+  // this one set mocha's timeout
+  this.timeout(5000);
+
   it('Should upload design successfully', (done) => {
     express
       .post('/v1/design/upload')
@@ -190,4 +196,5 @@ describe('Design API', () => {
 after(() => {
   // logout by deleting cookies
   express.cookie = null;
+  app.stop();
 });
