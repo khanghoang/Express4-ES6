@@ -2,11 +2,11 @@ require('co-mocha');
 
 import {expect} from 'chai';
 import connectToDatabase from '../app/config/database';
-import loadModels from '../app/utils/loadModels';
-import fs from 'fs';
 
 const mongoose = require('mongoose');
 const mockgoose = require('mockgoose');
+
+let Design;
 
 // mock the mongoose
 mockgoose(mongoose);
@@ -14,12 +14,15 @@ mockgoose(mongoose);
 before(function* () {
   // manually connect MOCKGOOSE db
   connectToDatabase({}, mongoose);
-  yield loadModels();
+
+  // because of mockgoose, we need to define Design
+  // model again
+  Design = require('../app/models/Design');
 });
 
-describe('Design Model', function() {
-  it('should have correct type', function* () {
-    let design = new Designs({status: 'approved'});
+describe('Design Controller', function() {
+  it('get all approved designs', function* () {
+    let design = new Design({status: 'approved'});
     try {
       yield design.save();
     } catch (e) {
@@ -30,7 +33,7 @@ describe('Design Model', function() {
   });
 
   it('should raise error when type is not valid', function* () {
-    let design = new Designs({status: 'invalid-type'});
+    let design = new Design({status: 'invalid-type'});
     try {
       yield design.save();
     } catch (err) {
