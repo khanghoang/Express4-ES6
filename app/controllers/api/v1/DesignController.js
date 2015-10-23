@@ -8,6 +8,8 @@ let config = require('../../../config/config');
 const URL = 'https://s3-ap-southeast-1.amazonaws.com/fox-build-your-f1/uploads/';
 /*eslint-enable */
 
+let filename;
+
 const upload = multer({
   storage: s3({
     dirname: 'uploads',
@@ -16,7 +18,8 @@ const upload = multer({
     accessKeyId: config.s3.accessKeyId,
     region: 'ap-southeast-1',
     filename: function(req, file, cb) {
-      cb(null, req.designID);
+      filename = Date.now();
+      cb(null, filename);
     }
   })
 });
@@ -25,8 +28,13 @@ class DesignController {
   static uploadDesign = () => {
     let design;
     return [
+
+      // always call multer first, so we can get
+      // the req.body
+      upload.single('design'),
+
       Promise.coroutine(function* (req, res, next) {
-        design = new Designs({});
+        design = new Designs(req.body);
 
         // validate the design model
         let error = design.validateSync();
@@ -36,14 +44,13 @@ class DesignController {
 
         // assign designID to use as filename to upload to s3
         req.designID = DesignController.getDesignID(design);
+
         next();
       }),
 
-      upload.single('design'),
-
       // update design model
       function(req, res, next) {
-        design.imageURL = URL + design._id;
+        design.imageURL = URL + filename;
         next();
       },
 
@@ -54,9 +61,14 @@ class DesignController {
           return next(e);
         }
 
-        return res.send(design.imageURL);
+        return res.status(200).json(design);
       })
     ];
+  }
+
+  static getAllApprovedDesigns = async (req, res) => {
+    var designs = await Designs.find({status: 'approved'});
+    return res.status(200).json({data: designs});
   }
 
   static getDesigns = async (req, res) => {
