@@ -1,5 +1,6 @@
 import multer from 'multer';
 import s3 from 'multer-s3';
+import Promise from 'bluebird';
 
 let config = require('../../../config/config');
 
@@ -24,11 +25,19 @@ class DesignController {
   static uploadDesign = () => {
     let design;
     return [
-      function(req, res, next) {
+      Promise.coroutine(function* (req, res, next) {
         design = new Designs({});
+
+        // validate the design model
+        let error = design.validateSync();
+        if (error) {
+          return next(new Error(error));
+        }
+
+        // assign designID to use as filename to upload to s3
         req.designID = DesignController.getDesignID(design);
         next();
-      },
+      }),
 
       upload.single('design'),
 
@@ -38,11 +47,15 @@ class DesignController {
         next();
       },
 
-      function(req, res) {
-        design.save(function() {
-          return res.send(design.imageURL);
-        });
-      }
+      Promise.coroutine(function* (req, res, next) {
+        try {
+          yield design.save();
+        } catch (e) {
+          return next(e);
+        }
+
+        return res.send(design.imageURL);
+      })
     ];
   }
 

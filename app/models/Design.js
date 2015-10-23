@@ -14,7 +14,8 @@ var DesignSchema = new Schema({
   status: {
     type: String,
     enum: DesignStatus,
-    require: true
+    require: true,
+    default: 'pending'
   }
 });
 

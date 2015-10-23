@@ -177,7 +177,6 @@ describe('Design API', function() {
     express
       .post('/v1/design/upload')
       .attach('design', path.join(__dirname, '/image/test.jpg'))
-      // .field({name: 'khanghoang'})
       .expect(200)
       .end(done);
   });
