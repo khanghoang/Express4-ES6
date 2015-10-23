@@ -192,10 +192,21 @@ class App {
 
     let config = this.config;
 
-    var listenAsync = Promise.promisify(app.listen);
-
-    await listenAsync.bind(app)(config.server.port);
+    let server = await this.startServer(app, config.server.port);
+    this.server = server;
     console.log('Server has started');
+  }
+
+  startServer(app, port) {
+    return new Promise(function(resolve) {
+      var server = app.listen(port, function() {
+        resolve(server);
+      });
+    });
+  }
+
+  stop() {
+    this.server.close();
   }
 
   run = async () => {
