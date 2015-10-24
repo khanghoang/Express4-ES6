@@ -4662,6 +4662,23 @@
         }
       }
     },
+    "mongoose-paginate": {
+      "version": "4.2.0",
+      "from": "mongoose-paginate@*",
+      "resolved": "https://registry.npmjs.org/mongoose-paginate/-/mongoose-paginate-4.2.0.tgz",
+      "dependencies": {
+        "async": {
+          "version": "1.4.2",
+          "from": "async@>=1.4.2 <1.5.0",
+          "resolved": "https://registry.npmjs.org/async/-/async-1.4.2.tgz"
+        },
+        "bluebird": {
+          "version": "2.9.34",
+          "from": "bluebird@>=2.9.34 <2.10.0",
+          "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-2.9.34.tgz"
+        }
+      }
+    },
     "mongoose-timestamp": {
       "version": "0.4.0",
       "from": "mongoose-timestamp@*",

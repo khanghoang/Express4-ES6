@@ -1,5 +1,6 @@
 import Promise from 'bluebird';
 import CreateUpdateAt from 'mongoose-timestamp';
+import mongoosePaginate from 'mongoose-paginate';
 
 const Schema = Mongoose.Schema;
 
@@ -21,6 +22,7 @@ var DesignSchema = new Schema({
 });
 
 DesignSchema.plugin(CreateUpdateAt);
+DesignSchema.plugin(mongoosePaginate);
 
 let Design = Promise.promisifyAll(Mongoose.model('Design', DesignSchema));
 
