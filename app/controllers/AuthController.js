@@ -39,8 +39,9 @@ class AuthController {
   }
 
   static doLogout = (req, res) => {
-    req.logout();
-    res.send('Logout successfully');
+    req.session.destroy(function() {
+      res.redirect('/login');
+    });
   }
 }
 
