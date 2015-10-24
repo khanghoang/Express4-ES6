@@ -96,7 +96,7 @@ class App {
       }
 
       if (!err) {
-        next();
+        return next();
       }
 
       if (err.toString() !== 'Error: this is expected error') {

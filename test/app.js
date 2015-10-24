@@ -86,10 +86,12 @@ describe('Test endpoints', () => {
   it('handle error correct with json request', (done) => {
     express
     .get('/somewierdurl')
+    .set('Accept', 'application/json')
     .accept('application/json')
     .expect(500)
     .end((err, data) => {
-      assert.equal(data.message, 'this is expected error');
+      console.log(data);
+      expect(JSON.parse(data.text).message).to.be.equal('this is expected error');
       done();
     });
   });
@@ -181,7 +183,6 @@ describe('Design API', function() {
       .attach('design', path.join(__dirname, '/image/test.jpg'))
       .expect(200)
       .end((req, res) => {
-        console.log(res.text);
         expect(JSON.parse(res.text).email).to.be.equal('khanghoang@gmail.com');
         done();
       });
