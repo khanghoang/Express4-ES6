@@ -1,3 +1,4 @@
+/* @flow */
 import express from 'express';
 import Bar from './bar';
 import connectToDatabase from './config/database';
@@ -231,7 +232,7 @@ class App {
     let app = this.express;
 
     app.get('/', (req, res) => {
-      res.send('Hello world' + Bar.foo);
+      res.send('Hello world' + Bar(new Users({}), "2"));
     });
 
     app.get('/admin', requireLogin, function(req, res) {
