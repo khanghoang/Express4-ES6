@@ -4662,6 +4662,11 @@
         }
       }
     },
+    "mongoose-timestamp": {
+      "version": "0.4.0",
+      "from": "mongoose-timestamp@*",
+      "resolved": "https://registry.npmjs.org/mongoose-timestamp/-/mongoose-timestamp-0.4.0.tgz"
+    },
     "morgan": {
       "version": "1.6.1",
       "from": "morgan@*",

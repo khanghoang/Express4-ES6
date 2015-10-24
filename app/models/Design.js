@@ -1,4 +1,5 @@
 import Promise from 'bluebird';
+import CreateUpdateAt from 'mongoose-timestamp';
 
 const Schema = Mongoose.Schema;
 
@@ -18,6 +19,8 @@ var DesignSchema = new Schema({
     default: 'pending'
   }
 });
+
+DesignSchema.plugin(CreateUpdateAt);
 
 let Design = Promise.promisifyAll(Mongoose.model('Design', DesignSchema));
 
