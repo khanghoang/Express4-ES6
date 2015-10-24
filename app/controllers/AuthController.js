@@ -8,6 +8,7 @@ class AuthController {
     }
 
     return res.render('oauth/login', {
+      messages: {}
     });
   }
 

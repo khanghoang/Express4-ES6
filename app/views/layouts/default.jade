@@ -1,0 +1,20 @@
+doctype html
+html.app(lang='en')
+
+  include ../includes/head
+
+  body
+
+    div#page
+
+      include ../includes/flash
+
+      include ../includes/header
+
+      section.container
+        block main
+        block content
+        block form
+
+    include ../includes/footer
+    include ../includes/foot
