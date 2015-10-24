@@ -142,6 +142,8 @@ class App {
     this.express.use(bodyParser.json());
     this.express.use(methodOverride());
 
+    this.express.use('/public', express.static(path.resolve(__dirname, '../public')));
+
     this.express.use(passport.initialize());
     this.express.use(passport.session({
       maxAge: new Date(Date.now() + 3600000)
