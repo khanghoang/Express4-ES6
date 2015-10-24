@@ -1,12 +1,29 @@
-.container
-  form(name="login", action="/login", method="POST")
-    h2.form-signin-heading Please sign in
-      label.sr-only(for='inputEmail') Email address
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    // The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags
+    title Bootstrap 101 Template
+    // Bootstrap
+    link(href='/public/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/public/css/index.css', rel='stylesheet')
+    // HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
+    // WARNING: Respond.js doesn't work if you view the page via file://
+    //if lt IE 9
+      script(src='https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js')
+      script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
+  body
+    .container
+      form(name="login", class='form-signin' action="/login", method="POST")
+        h2.form-signin-heading Please sign in
+        label.sr-only(for='inputEmail') Email address
         input#inputEmail.form-control(type='text', placeholder='Email address', required='', autofocus='', name='username')
         label.sr-only(for='inputPassword') Password
         input#inputPassword.form-control(type='password', placeholder='Password', required='', name='password')
         .checkbox
           label
-            input(type='checkbox', value='remember-me')
-            |  Remember me
+          input(type='checkbox', value='remember-me')
+          |  Remember me
         button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign in
