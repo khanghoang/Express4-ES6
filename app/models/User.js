@@ -15,7 +15,9 @@ var UserSchema = new Schema({
   provider: {
     type: Schema.Types.Array,
     default: []
-  }
+  },
+
+  role: String
 
 });
 

@@ -2190,6 +2190,49 @@
         }
       }
     },
+    "connect-roles": {
+      "version": "3.1.1",
+      "from": "connect-roles@*",
+      "resolved": "https://registry.npmjs.org/connect-roles/-/connect-roles-3.1.1.tgz",
+      "dependencies": {
+        "path-to-regexp": {
+          "version": "1.2.1",
+          "from": "path-to-regexp@>=1.0.1 <2.0.0",
+          "resolved": "https://registry.npmjs.org/path-to-regexp/-/path-to-regexp-1.2.1.tgz",
+          "dependencies": {
+            "isarray": {
+              "version": "0.0.1",
+              "from": "isarray@0.0.1",
+              "resolved": "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
+            }
+          }
+        },
+        "ert": {
+          "version": "1.0.1",
+          "from": "ert@>=1.0.1 <2.0.0",
+          "resolved": "https://registry.npmjs.org/ert/-/ert-1.0.1.tgz",
+          "dependencies": {
+            "character-parser": {
+              "version": "1.0.2",
+              "from": "character-parser@>=1.0.0 <1.1.0",
+              "resolved": "https://registry.npmjs.org/character-parser/-/character-parser-1.0.2.tgz"
+            }
+          }
+        },
+        "promise": {
+          "version": "6.1.0",
+          "from": "promise@>=6.0.1 <7.0.0",
+          "resolved": "https://registry.npmjs.org/promise/-/promise-6.1.0.tgz",
+          "dependencies": {
+            "asap": {
+              "version": "1.0.0",
+              "from": "asap@>=1.0.0 <1.1.0",
+              "resolved": "https://registry.npmjs.org/asap/-/asap-1.0.0.tgz"
+            }
+          }
+        }
+      }
+    },
     "cookie-parser": {
       "version": "1.4.0",
       "from": "cookie-parser@*",

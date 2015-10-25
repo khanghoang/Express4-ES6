@@ -20,6 +20,7 @@
     "bluebird": "^2.10.2",
     "body-parser": "^1.14.1",
     "connect-mongo": "^0.8.2",
+    "connect-roles": "^3.1.1",
     "cookie-parser": "^1.4.0",
     "crypto": "0.0.3",
     "errorhandler": "^1.4.2",

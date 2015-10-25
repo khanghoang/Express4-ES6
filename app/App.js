@@ -13,12 +13,12 @@ import Promise from 'bluebird';
 import passport from 'passport';
 import errorHandler from 'errorhandler';
 import UserManager from './managers/UserManager';
-import requireLogin from './policies/requireLogin';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import mongoStore from 'connect-mongo';
 import expressPaginate from 'express-paginate';
 import {Strategy as LocalStrategy} from 'passport-local';
+import ConnectRoles from 'connect-roles';
 
 class App {
 
@@ -48,6 +48,7 @@ class App {
   }
 
   constructor() {
+    this.roles = new ConnectRoles();
     this.express = express();
     this.instance = {};
   }
@@ -201,7 +202,6 @@ class App {
     ));
 
     passport.serializeUser(function(user, done) {
-      done(null, user._id);
       done(null, user);
     });
 
@@ -211,7 +211,18 @@ class App {
       });
     });
 
+    // roles, authorization
+    this.express.use(this.roles.middleware());
 
+    // define admin role
+    this.roles.use('admin', function(req) {
+      console.log(_.get(req, 'session.passport.user', null));
+      if (_.get(req, 'session.passport.user.role', null) === 'admin') {
+        return true;
+      }
+
+      return false;
+    });
   }
 
   start = async () => {
@@ -253,7 +264,7 @@ class App {
       res.send('Hello world' + bar(new Users({}), '2'));
     });
 
-    app.get('/admin', requireLogin, function(req, res) {
+    app.get('/admin', this.roles.can('admin'), function(req, res) {
       res.send('hello admin');
     });
 

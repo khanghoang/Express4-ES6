@@ -26,7 +26,11 @@ before(function* () {
   // order matter
   yield app.run();
 
-  let user = new Users({username: 'khanghoang', password: '123456'});
+  let user = new Users({
+    username: 'khanghoang',
+    password: '123456',
+    role: 'admin'
+  });
   yield user.save();
 });
 
@@ -117,16 +121,12 @@ describe('Test authorization', () => {
       .end(done);
   });
 
-  it('It should redirect after to login page if hasnt ' +
+  it('It should show 403 page if hasnt ' +
      'logged in yet', (done) => {
        express
        .get('/admin')
-       .expect(200)
-       .end((err, res) => {
-         // redirect to login page
-         expect(res.header.location).to.include('/login');
-         done();
-       });
+       .expect(403)
+       .end(done);
      });
 
   it('Login successfully by local username and password', (done) => {
