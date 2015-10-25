@@ -169,7 +169,7 @@ describe('Design API', function() {
 
   it('Should upload design successfully', (done) => {
     express
-      .post('/v1/design/upload')
+      .post('/v1/api/design/upload')
       .field('email', 'khanghoang@gmail.com')
       .attach('design', path.join(__dirname, '/image/test.jpg'))
       .expect(200)
@@ -181,7 +181,7 @@ describe('Design API', function() {
 
   it('Should get list of designs that just uploaded', (done) => {
     express
-      .get('/v1/design')
+      .get('/v1/api/design')
       .expect(200)
       .end((err, res) => {
         expect(JSON.parse(res.text).data.length).to.be.equal(1);
