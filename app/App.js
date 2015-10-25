@@ -230,6 +230,10 @@ class App {
   run = async () => {
     connectToDatabase({}, Mongoose);
 
+    // special global variable
+    GLOBAL.Promise = require('bluebird');
+    GLOBAL._ = require('lodash');
+
     await this.loadMiddlewares();
     await this.loadModels();
     await this.loadRouters();
