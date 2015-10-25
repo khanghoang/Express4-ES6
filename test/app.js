@@ -184,8 +184,8 @@ describe('Design API', function() {
       .get('/v1/design')
       .expect(200)
       .end((err, res) => {
-        expect(JSON.parse(res.text).data.length).to.be.above(1);
-        done();
+        expect(JSON.parse(res.text).data.length).to.be.equal(1);
+        Designs.remove({}, done);
       });
   });
 });

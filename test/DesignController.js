@@ -1,6 +1,5 @@
 describe('Design Controller', function() {
   it('get all approved designs', function* () {
-
     var rawDesigns = [
       {
         status: 'approved'
@@ -39,19 +38,6 @@ describe('Design Controller', function() {
     };
 
     yield DesignController.getAllApprovedDesigns(req, res, function() {});
+    yield Designs.remove({});
   });
-
-  it('should pagination correctly', function* () {
-    var fakeReq = {
-      page: 0,
-      limit: 1
-    };
-    var data = yield DesignManager.getAllApprovedDesigns(fakeReq, {});
-    expect(data.pageCount).to.be.equal(4);
-  });
-
-});
-
-after(function() {
-  mockgoose.reset('Designs');
 });
