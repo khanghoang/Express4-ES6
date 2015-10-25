@@ -1,36 +1,27 @@
-import Promise from 'bluebird';
+/* @flow */
+class DesignManager {
+  static getAllApprovedDesigns : Promise = (params: Object, query: Object) => {
+    return new Promise(function(resolve, reject) {
+      Designs.paginate(
+        query,
+        {
+          page: params.page || 0,
+          limit: params.limit || 50
+        },
+        function(err, designs, pageCount, itemCount) {
+          if (err) {
+            return reject(err);
+          }
 
-function getAllApprovedDesigns(req, query) {
-  return new Promise(function(resolve, reject) {
-    console.log('here');
-    debugger;
-    Designs.paginate(query,
-                     {
-                       page: req.query.page,
-                       limit: req.query.limit
-                     },
-                     function(err, designs, pageCount, itemCount) {
+          return resolve({
+            data: designs,
+            pageCount: pageCount,
+            itemCount: itemCount
+          });
+        });
+    });
+  };
+}
 
-                       console.log('there');
-    debugger;
+export default DesignManager;
 
-                       console.log({
-                         data: designs,
-                         pageCount: pageCount,
-                         itemCount: itemCount
-                       });
-
-                       if (err) {
-                         return reject(err);
-                       }
-
-                       return resolve({
-                         data: designs,
-                         pageCount: pageCount,
-                         itemCount: itemCount
-                       });
-                     });
-  });
-};
-
-export default getAllApprovedDesigns;

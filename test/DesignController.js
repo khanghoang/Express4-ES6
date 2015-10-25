@@ -3,7 +3,6 @@ require('co-mocha');
 import {expect} from 'chai';
 import connectToDatabase from '../app/config/database';
 import loadModels from '../app/utils/loadModels';
-import sinon from 'sinon';
 const mongoose = require('mongoose');
 const mockgoose = require('mockgoose');
 
@@ -19,10 +18,12 @@ before(function* () {
   loadModels();
   DesignController = require('../app/controllers/api/v1/DesignController');
   DesignManager = require('../app/managers/DesignManager');
+
 });
 
 describe('Design Controller', function() {
   it('get all approved designs', function* () {
+
     var rawDesigns = [
       {
         status: 'approved'
@@ -65,12 +66,10 @@ describe('Design Controller', function() {
 
   it('should pagination correctly', function* () {
     var fakeReq = {
-      query: {
-        page: 0,
-        limit: 1
-      }
+      page: 0,
+      limit: 1
     };
-    var data = yield DesignManager(fakeReq, {});
+    var data = yield DesignManager.getAllApprovedDesigns(fakeReq, {});
     expect(data.pageCount).to.be.equal(4);
   });
 

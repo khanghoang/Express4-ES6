@@ -90,8 +90,8 @@ describe('Test endpoints', () => {
     .accept('application/json')
     .expect(500)
     .end((err, data) => {
-      console.log(data);
-      expect(JSON.parse(data.text).message).to.be.equal('this is expected error');
+      expect(JSON.parse(data.text).message)
+      .to.be.equal('this is expected error');
       done();
     });
   });
