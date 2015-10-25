@@ -1,0 +1,8 @@
+extends ../layouts/default
+
+block content
+  .container
+    each design in designs
+      li= design._id
+
+  include ../layouts/_paginate
