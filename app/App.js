@@ -183,7 +183,6 @@ class App {
     console.log('start');
 
     let app = this.express;
-    let mongoose = this.mongoose || Mongoose;
     app.set('view engine', 'jade');
     app.set('views', path.resolve(__dirname, '../app/views'));
 
