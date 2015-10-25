@@ -1,26 +1,3 @@
-require('co-mocha');
-
-import {expect} from 'chai';
-import connectToDatabase from '../app/config/database';
-import loadModels from '../app/utils/loadModels';
-const mongoose = require('mongoose');
-const mockgoose = require('mockgoose');
-
-let DesignController;
-let DesignManager;
-
-// mock the mongoose
-mockgoose(mongoose);
-
-before(function* () {
-  // manually connect MOCKGOOSE db
-  connectToDatabase({}, mongoose);
-  loadModels();
-  DesignController = require('../app/controllers/api/v1/DesignController');
-  DesignManager = require('../app/managers/DesignManager');
-
-});
-
 describe('Design Controller', function() {
   it('get all approved designs', function* () {
 

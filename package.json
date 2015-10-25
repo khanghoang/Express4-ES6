@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "gulp babel && node dist/server.js",
-    "test": "gulp babel && mocha --compilers js:babel/register --require test/support/env --require co-mocha --require babelhook --reporter spec --bail test/",
+    "test": "gulp babel && mocha test/support/fixtures.js --compilers js:babel/register --require test/support/env --require co-mocha --require babelhook --reporter spec --bail test/",
     "test-co": "istanbul cover _mocha -- --require babel/register test/support/env --reporter dot --check-leaks test",
     "lint": "node_modules/eslint/bin/eslint.js app"
   },
