@@ -19,6 +19,7 @@ import mongoStore from 'connect-mongo';
 import expressPaginate from 'express-paginate';
 import {Strategy as LocalStrategy} from 'passport-local';
 import ConnectRoles from 'connect-roles';
+import Policy from './policies/Policy';
 
 class App {
 
@@ -212,17 +213,8 @@ class App {
     });
 
     // roles, authorization
-    this.express.use(this.roles.middleware());
-
-    // define admin role
-    this.roles.use('admin', function(req) {
-      console.log(_.get(req, 'session.passport.user', null));
-      if (_.get(req, 'session.passport.user.role', null) === 'admin') {
-        return true;
-      }
-
-      return false;
-    });
+    // need to be after passport
+    Policy.initPolicies(this.express, this.roles);
   }
 
   start = async () => {
