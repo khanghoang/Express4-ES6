@@ -1,19 +1,12 @@
-require('co-mocha');
 import App from '../app/App';
 import assert from 'assert';
-import {expect} from 'chai';
 import session from 'supertest-session';
 import sinon from 'sinon';
-import Promise from 'bluebird';
 import path from 'path';
-var mongoose = require('mongoose');
-var mockgoose = require('mockgoose');
 
 var testConfig = require('../app/config/test.config.js');
 
 let app, express, mailClient;
-
-mockgoose(mongoose);
 
 before(function* () {
   // mock mailClient
@@ -34,8 +27,7 @@ before(function* () {
   yield app.run();
 
   let user = new Users({username: 'khanghoang', password: '123456'});
-  let saveAsync = Promise.promisify(user.save);
-  yield saveAsync.bind(user);
+  yield user.save();
 });
 
 
@@ -43,8 +35,7 @@ describe('Test endpoints', () => {
 
   it('mock save user successfully using Mockgoose', function* () {
     var user = new Users({username: 'khang'});
-    let saveAsync = Promise.promisify(user.save);
-    var result = yield saveAsync.bind(user);
+    var result = yield user.save();
     assert(result, 1);
   });
 

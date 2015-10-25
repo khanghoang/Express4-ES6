@@ -18,6 +18,9 @@ before(function* () {
   yield loadModels();
 
   GLOBAL.mockgoose = mockgoose;
+  GLOBAL.mongoose = mongoose;
+  GLOBAL.Promise = require('bluebird');
+  GLOBAL._ = require('lodash');
   GLOBAL.expect = expect;
 
   GLOBAL.DesignController =
