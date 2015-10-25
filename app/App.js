@@ -1,6 +1,6 @@
 /* @flow */
 import express from 'express';
-import Bar from './bar';
+import bar from './bar';
 import connectToDatabase from './config/database';
 import Mongoose from 'mongoose';
 import bodyParser from 'body-parser';
@@ -241,7 +241,7 @@ class App {
     let app = this.express;
 
     app.get('/', (req, res) => {
-      res.send('Hello world' + Bar(new Users({}), "2"));
+      res.send('Hello world' + bar(new Users({}), '2'));
     });
 
     app.get('/admin', requireLogin, function(req, res) {
