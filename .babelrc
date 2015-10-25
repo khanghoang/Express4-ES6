@@ -1,3 +1,5 @@
 {
-  "plugins": ["typecheck"]
+  "plugins": ["typecheck"],
+  "optional": ['runtime', 'es7.classProperties'],
+  "stage": 0
 }
