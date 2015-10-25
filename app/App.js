@@ -150,16 +150,18 @@ class App {
       };
       next();
     });
+
     this.express.use(expressPaginate.middleware(10, 50));
 
-    this.express.use('/public', express.static(path.resolve(__dirname, '../public')));
+    this.express.use('/public',
+                     express.static(path.resolve(__dirname, '../public')));
 
     this.express.use(passport.initialize());
     this.express.use(passport.session({
       maxAge: new Date(Date.now() + 3600000)
     }));
 
-    let mongoStore = MongoStore({session: session});
+    let Store = mongoStore({session: session});
 
     this.express.use(cookieParser('notagoodsecretnoreallydontusethisone'));
     this.express.use(session({
@@ -171,7 +173,7 @@ class App {
         // use UUIDs for session IDs
         return require('node-uuid').v4();
       },
-      store: new mongoStore({
+      store: new Store({
         url: this.config.database.url,
         collection: 'sessions'
       })
