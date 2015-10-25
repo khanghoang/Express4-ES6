@@ -16,7 +16,7 @@ import UserManager from './managers/UserManager';
 import requireLogin from './policies/requireLogin';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
-import MongoStore from 'connect-mongo';
+import mongoStore from 'connect-mongo';
 import expressPaginate from 'express-paginate';
 import {Strategy as LocalStrategy} from 'passport-local';
 
@@ -143,6 +143,13 @@ class App {
     this.express.use(bodyParser.json());
     this.express.use(methodOverride());
 
+    // to use flash messages
+    this.express.use(function(req, res, next) {
+      res.locals = {
+        messages: {}
+      };
+      next();
+    });
     this.express.use(expressPaginate.middleware(10, 50));
 
     this.express.use('/public', express.static(path.resolve(__dirname, '../public')));
