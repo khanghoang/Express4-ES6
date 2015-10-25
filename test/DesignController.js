@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const mockgoose = require('mockgoose');
 
 let DesignController;
+let DesignManager;
 
 // mock the mongoose
 mockgoose(mongoose);
@@ -17,11 +18,11 @@ before(function* () {
   connectToDatabase({}, mongoose);
   loadModels();
   DesignController = require('../app/controllers/api/v1/DesignController');
+  DesignManager = require('../app/managers/DesignManager');
 });
 
 describe('Design Controller', function() {
   it('get all approved designs', function* () {
-
     var rawDesigns = [
       {
         status: 'approved'
@@ -31,6 +32,9 @@ describe('Design Controller', function() {
       },
       {
         status: 'rejected'
+      },
+      {
+        status: 'approved'
       }
     ];
 
@@ -40,16 +44,34 @@ describe('Design Controller', function() {
       yield design.save();
     }
 
+    let req = {
+      query: {
+        page: 0,
+        limit: 10
+      }
+    };
+
     let res = {
       status: function() {
         return this;
       },
       json: function(r) {
-        expect(r.data.length).to.be.equal(1);
+        expect(r.data.length).to.be.equal(2);
       }
     };
 
-    yield DesignController.getAllApprovedDesigns({}, res, {});
+    yield DesignController.getAllApprovedDesigns(req, res, function() {});
+  });
+
+  it('should pagination correctly', function* () {
+    var fakeReq = {
+      query: {
+        page: 0,
+        limit: 1
+      }
+    };
+    var data = yield DesignManager(fakeReq, {});
+    expect(data.pageCount).to.be.equal(4);
   });
 
 });

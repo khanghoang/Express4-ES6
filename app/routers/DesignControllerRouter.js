@@ -8,6 +8,8 @@ class DesignControllerRouter {
     // this is the route
     this.router.post('/v1/design/upload', DesignController.uploadDesign());
     this.router.get('/v1/design', DesignController.getDesigns);
+    this.router.get('/v1/design/approved',
+                    DesignController.getAllApprovedDesigns);
 
     return this.router;
   }

@@ -17,6 +17,7 @@ import requireLogin from './policies/requireLogin';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import MongoStore from 'connect-mongo';
+import expressPaginate from 'express-paginate';
 import {Strategy as LocalStrategy} from 'passport-local';
 
 class App {
@@ -141,6 +142,8 @@ class App {
     this.express.use(bodyParser.urlencoded({extended: true}));
     this.express.use(bodyParser.json());
     this.express.use(methodOverride());
+
+    this.express.use(expressPaginate.middleware(10, 50));
 
     this.express.use('/public', express.static(path.resolve(__dirname, '../public')));
 

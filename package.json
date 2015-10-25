@@ -23,6 +23,7 @@
     "crypto": "0.0.3",
     "errorhandler": "^1.4.2",
     "express": "^4.13.3",
+    "express-paginate": "0.0.9",
     "express-session": "^1.11.3",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.2.1",

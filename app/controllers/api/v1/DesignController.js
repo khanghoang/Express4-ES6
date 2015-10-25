@@ -1,6 +1,7 @@
 import multer from 'multer';
 import s3 from 'multer-s3';
 import Promise from 'bluebird';
+import getAllApprovedDesigns from '../../../managers/DesignManager';
 
 let config = require('../../../config/config');
 
@@ -66,9 +67,17 @@ class DesignController {
     ];
   }
 
-  static getAllApprovedDesigns = async (req, res) => {
-    var designs = await Designs.find({status: 'approved'});
-    return res.status(200).json({data: designs});
+  static getAllApprovedDesigns = async (req, res, next) => {
+    let approvedDesigns = {};
+    try {
+      approvedDesigns = await getAllApprovedDesigns(req, {status: 'approved'});
+    } catch (e) {
+      next(e);
+    }
+
+    console.log(approvedDesigns);
+
+    return res.status(200).json(approvedDesigns);
   }
 
   static getDesigns = async (req, res) => {
