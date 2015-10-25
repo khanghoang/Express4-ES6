@@ -31,4 +31,32 @@ describe('Design Manager', function() {
     yield Designs.remove({});
   });
 
+  it('able to approve design', function* () {
+    let design = new Designs(
+      {
+        status: 'pending'
+      }
+    );
+
+    yield design.save();
+
+    var updatedDesign = yield DesignManager.approveDesign(design);
+    expect(updatedDesign.status).to.be.equal('approved');
+    yield Designs.remove({});
+  });
+
+  it('able to reject design', function* () {
+    let design = new Designs(
+      {
+        status: 'pending'
+      }
+    );
+
+    yield design.save();
+
+    var updatedDesign = yield DesignManager.rejectDesign(design);
+    expect(updatedDesign.status).to.be.equal('rejected');
+    yield Designs.remove({});
+  });
+
 });

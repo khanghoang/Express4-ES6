@@ -1,5 +1,27 @@
 /* @flow */
 class DesignManager {
+
+  static approveDesign : number|Error =
+    async (design: Designs) => {
+      return await DesignManager._changeDesignStatus('approved', design);
+    }
+
+  static rejectDesign : number|Error =
+    async (design: Designs) => {
+      return await DesignManager._changeDesignStatus('rejected', design);
+    }
+
+  static _changeDesignStatus : number|Error =
+    async (status: string, design: Designs) => {
+      design.status = status;
+      let err = design.validateSync();
+      if (err) {
+        return err;
+      }
+
+      return await design.save();
+    }
+
   static getAllApprovedDesigns : Promise = (params: Object, query: Object) => {
     return new Promise(function(resolve, reject) {
       Designs.paginate(
