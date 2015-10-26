@@ -18,7 +18,9 @@ var DesignSchema = new Schema({
     enum: DesignStatus,
     require: true,
     default: 'pending'
-  }
+  },
+  description: String,
+  address: String
 });
 
 DesignSchema.plugin(CreateUpdateAt);
