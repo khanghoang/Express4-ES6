@@ -30,7 +30,7 @@ class DesignController {
     }
 
     res.render('designs/index', {
-      originUrl: req.originalUrl,
+      originUrl: req.originalUrl || '/admin/designs',
       designs: data.data,
       pageCount: data.pageCount,
       itemCount: data.itemCount
@@ -49,7 +49,7 @@ class DesignController {
     }
 
     res.render('designs/index', {
-      originUrl: req.originalUrl,
+      originUrl: req.originalUrl || '/admin/designs',
       designs: data.data,
       pageCount: data.pageCount,
       itemCount: data.itemCount
@@ -68,7 +68,7 @@ class DesignController {
     }
 
     res.render('designs/index', {
-      originUrl: req.originalUrl,
+      originUrl: req.originalUrl || '/admin/designs',
       designs: data.data,
       pageCount: data.pageCount,
       itemCount: data.itemCount

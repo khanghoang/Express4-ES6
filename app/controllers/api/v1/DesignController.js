@@ -9,8 +9,6 @@ let config = require('../../../config/config');
 const URL = 'https://s3-ap-southeast-1.amazonaws.com/fox-build-your-f1/uploads/';
 /*eslint-enable */
 
-let filename;
-
 const upload = multer({
   storage: s3({
     dirname: 'uploads',
@@ -19,8 +17,8 @@ const upload = multer({
     accessKeyId: config.s3.accessKeyId,
     region: 'ap-southeast-1',
     filename: function(req, file, cb) {
-      filename = Date.now();
-      cb(null, filename);
+      file.desName = Date.now();
+      cb(null, file.desName);
     }
   })
 });
@@ -51,7 +49,10 @@ class DesignController {
 
       // update design model
       function(req, res, next) {
-        design.imageURL = URL + filename;
+        if (!_.get(req, 'file.desName')) {
+          next(new Error('Cant get file!!!'));
+        }
+        design.imageURL = URL + req.file.desName;
         next();
       },
 
