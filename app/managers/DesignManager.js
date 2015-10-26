@@ -34,7 +34,10 @@ class DesignManager {
           query,
           {
             page: params.page || 0,
-            limit: params.limit || 50
+            limit: params.limit || 50,
+            sortBy: {
+              updatedAt: -1
+            }
           },
           function(err, designs, pageCount, itemCount) {
             if (err) {
