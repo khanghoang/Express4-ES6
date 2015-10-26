@@ -2,7 +2,26 @@ extends ../layouts/default
 
 block content
   .container
-    each design in designs
-      li= design._id
+    .row
+      .col-md-12
+        table.table.table-striped
+          thead
+            tr
+              th Image
+              th Email
+              th Description
+              th Approve
+              th Reject
+          tbody
+            each design in designs
+              tr
+                td
+                  img.img-thumbnail(data-src='design.imageURL', alt='200x200', src=design.imageURL, data-holder-rendered='true', style='height: 200px;')
+                td= design.email
+                td= design.description
+                td
+                  a.btn.btn-success(href='/admin/designs/approve/'+design._id+"?originURL="+originUrl, class=design.status==='approved'?'disabled':'') Approve
+                td
+                  a.btn.btn-danger(href='/admin/designs/reject/'+design._id+"?originURL="+originUrl, class=design.status==='rejected'?'disabled':'') Reject
 
   include ../layouts/_paginate

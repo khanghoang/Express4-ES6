@@ -16,6 +16,14 @@ class DesignControllerRouter {
 
     // this is for CMS
     this.router.get('/admin/designs', DesignController.index);
+    this.router.get('/admin/designs/approvedList',
+                    DesignController.approvedPage);
+    this.router.get('/admin/designs/rejectedList',
+                    DesignController.rejectedPage);
+    this.router.get('/admin/designs/pendingList',
+                    DesignController.pendingPage);
+    this.router.get('/admin/designs/approve/:id', DesignController.approve);
+    this.router.get('/admin/designs/reject/:id', DesignController.reject);
 
     return this.router;
   }

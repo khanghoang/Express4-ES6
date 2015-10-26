@@ -10,8 +10,14 @@ nav.navbar.navbar-inverse
     .navbar-collapse.collapse
       ul.nav.navbar-nav.pull-right
         if (user)
-          li.active
-            a(href='/admin/designs') Designs
+          li
+            a(href='/admin/designs') All Designs
+          li
+            a(href='/admin/designs/pendingList') Pending Designs
+          li
+            a(href='/admin/designs/approvedList') Approved Designs
+          li
+            a(href='/admin/designs/rejectedList') Rejected Designs
           li
             a(href='/logout') Logout
         else
