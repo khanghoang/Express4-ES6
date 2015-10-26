@@ -12,6 +12,7 @@ class DesignController {
     }
 
     res.render('designs/index', {
+      title: 'All Designs',
       designs: data.data,
       pageCount: data.pageCount,
       itemCount: data.itemCount
@@ -30,6 +31,7 @@ class DesignController {
     }
 
     res.render('designs/index', {
+      title: 'Approved Designs',
       originUrl: req.originalUrl || '/admin/designs',
       designs: data.data,
       pageCount: data.pageCount,
@@ -49,6 +51,7 @@ class DesignController {
     }
 
     res.render('designs/index', {
+      title: 'Rejected Designs',
       originUrl: req.originalUrl || '/admin/designs',
       designs: data.data,
       pageCount: data.pageCount,
@@ -69,6 +72,7 @@ class DesignController {
 
     res.render('designs/index', {
       originUrl: req.originalUrl || '/admin/designs',
+      title: 'Pending Designs',
       designs: data.data,
       pageCount: data.pageCount,
       itemCount: data.itemCount

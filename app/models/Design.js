@@ -20,7 +20,8 @@ var DesignSchema = new Schema({
     default: 'pending'
   },
   description: String,
-  address: String
+  address: String,
+  name: String
 });
 
 DesignSchema.plugin(CreateUpdateAt);

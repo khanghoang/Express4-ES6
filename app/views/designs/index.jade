@@ -1,6 +1,7 @@
 extends ../layouts/default
 
 block content
+  h1= title
   .container
     .row
       .col-md-12
@@ -8,17 +9,23 @@ block content
           thead
             tr
               th(style="width: 300px;") Image
-              th(style="width: 200px;") Email
               th Description
-              th(style="width: 70px;") Approve
-              th(style="width: 70px;") Reject
+              th(style="width: 350px;")
+              th(style="width: 100px;") Approve
+              th(style="width: 100px;") Reject
           tbody
             each design in designs
               tr
                 td
                   img.img-thumbnail(data-src='design.imageURL', alt='200x200', src=design.imageURL, data-holder-rendered='true', style='width: 300px;')
-                td= design.email
                 td= design.description
+                td
+                  ul
+                    li= 'ID: ' + design._id
+                    li= 'Summit Date: ' + design.updatedAt
+                    li= 'Name: ' + (design.name || '')
+                    li= 'Email: ' + (design.email || '')
+                    li= 'Address: ' + (design.address || '')
                 td
                   a.btn.btn-success(href='/admin/designs/approve/'+design._id+"?originURL="+originUrl, class=design.status==='approved'?'disabled':'') Approve
                 td
