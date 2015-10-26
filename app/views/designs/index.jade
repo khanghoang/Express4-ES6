@@ -7,16 +7,16 @@ block content
         table.table.table-striped
           thead
             tr
-              th Image
-              th Email
+              th(style="width: 300px;") Image
+              th(style="width: 200px;") Email
               th Description
-              th Approve
-              th Reject
+              th(style="width: 50px;") Approve
+              th(style="width: 50px;") Reject
           tbody
             each design in designs
               tr
                 td
-                  img.img-thumbnail(data-src='design.imageURL', alt='200x200', src=design.imageURL, data-holder-rendered='true', style='height: 200px;')
+                  img.img-thumbnail(data-src='design.imageURL', alt='200x200', src=design.imageURL, data-holder-rendered='true', style='width: 300px;')
                 td= design.email
                 td= design.description
                 td
