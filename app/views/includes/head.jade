@@ -1,0 +1,21 @@
+nav.navbar.navbar-inverse
+  .container
+    .navbar-header
+      button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand(href='#') BuildYourF1
+    .navbar-collapse.collapse
+      ul.nav.navbar-nav.pull-right
+        if (user)
+          li.active
+            a(href='/admin/designs') Designs
+          li
+            a(href='/logout') Logout
+        else
+          li
+            a(href='/login') Login
+    // /.nav-collapse
+
