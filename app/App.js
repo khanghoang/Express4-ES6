@@ -212,6 +212,13 @@ class App {
       });
     });
 
+    this.express.use(function(req, res, next) {
+      if (_.get(req, 'session.passport.user', null)) {
+        res.locals.user = req.session.passport.user;
+      }
+      next();
+    });
+
     // roles, authorization
     // need to be after passport
     Policy.initPolicies(this.express, this.roles);
