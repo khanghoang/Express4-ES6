@@ -13,6 +13,7 @@ class DesignController {
 
     res.render('designs/index', {
       title: 'All Designs',
+      originUrl: req.originalUrl || '/admin/designs',
       designs: data.data,
       pageCount: data.pageCount,
       itemCount: data.itemCount
