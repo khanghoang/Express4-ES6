@@ -11,8 +11,9 @@ block content
               th(style="width: 300px;") Image
               th Description
               th(style="width: 350px;")
-              th(style="width: 100px;") Approve
-              th(style="width: 100px;") Reject
+              th(style="width: 70px;")
+              th(style="width: 100px;")
+              th(style="width: 100px;")
           tbody
             each design in designs
               tr
@@ -26,6 +27,8 @@ block content
                     li= 'Name: ' + (design.name || '')
                     li= 'Email: ' + (design.email || '')
                     li= 'Address: ' + (design.address || '')
+                td
+                  a.btn.btn-success(href='/admin/designs/'+(design.isPinned?'unpin':'pin')+'/'+design._id+"?originURL="+originUrl) #{(design.isPinned ? "Unpin" : "Pin")}
                 td
                   a.btn.btn-success(href='/admin/designs/approve/'+design._id+"?originURL="+originUrl, class=design.status==='approved'?'disabled':'') Approve
                 td

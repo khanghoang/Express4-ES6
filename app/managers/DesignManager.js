@@ -16,6 +16,32 @@ class DesignManager {
       return await DesignManager._changeDesignStatus('rejected', design);
     }
 
+  static unpinDesign : number|Error =
+    async (design: Designs) => {
+      return await DesignManager._changePinFlag(false, design);
+    }
+
+  static pinDesign : number|Error =
+    async (design: Designs) => {
+      await DesignManager._changeDesignStatus('approved', design);
+      return await DesignManager._changePinFlag(true, design);
+    }
+
+  static getAllPinDesign : Promise = (params: Object) => {
+    return DesignManager.getDesignsWithPagination(params, {isPinned: true});
+  };
+
+  static _changePinFlag : number|Error =
+    async (pin: boolean, design: Designs) => {
+      design.isPinned = pin;
+      let err = design.validateSync();
+      if (err) {
+        return err;
+      }
+
+      return await design.save();
+    }
+
   static _changeDesignStatus : number|Error =
     async (status: string, design: Designs) => {
       design.status = status;
@@ -36,7 +62,7 @@ class DesignManager {
             page: params.page || 0,
             limit: params.limit || 50,
             sortBy: {
-              updatedAt: -1
+              createdAt: -1
             }
           },
           function(err, designs, pageCount, itemCount) {

@@ -21,7 +21,11 @@ var DesignSchema = new Schema({
   },
   description: String,
   address: String,
-  name: String
+  name: String,
+  isPinned: {
+    type: Boolean,
+    default: false
+  }
 });
 
 DesignSchema.plugin(CreateUpdateAt);
