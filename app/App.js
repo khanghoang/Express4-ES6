@@ -141,6 +141,15 @@ class App {
 
   loadMiddlewares = async () => {
 
+    var allowCrossDomain = function(req, res, next) {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Credentials', true);
+      res.header('Access-Control-Allow-Headers',
+                 'X-Requested-With,content-type');
+      next();
+    };
+    this.express.use(allowCrossDomain);
+
     this.express.use(bodyParser.urlencoded({extended: true}));
     this.express.use(bodyParser.json());
     this.express.use(methodOverride());
