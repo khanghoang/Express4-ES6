@@ -13,7 +13,8 @@ class DesignManager {
 
   static rejectDesign : number|Error =
     async (design: Designs) => {
-      return await DesignManager._changeDesignStatus('rejected', design);
+      await DesignManager._changeDesignStatus('rejected', design);
+      return await DesignManager._changeDesignStatus(false, design);
     }
 
   static unpinDesign : number|Error =
