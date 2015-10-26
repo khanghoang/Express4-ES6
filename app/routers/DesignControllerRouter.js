@@ -7,11 +7,11 @@ class DesignControllerRouter {
     this.router = router();
 
     // this is the API
-    this.router.post('/v1/api/design/upload',
+    this.router.post('/api/v1/design/upload',
                      DesignAPIController.uploadDesign());
-    this.router.get('/v1/api/design',
+    this.router.get('/api/v1/design',
                     DesignAPIController.getDesigns);
-    this.router.get('/v1/api/design/approved',
+    this.router.get('/api/v1/design/approved',
                     DesignAPIController.getAllApprovedDesigns);
 
     // this is for CMS
