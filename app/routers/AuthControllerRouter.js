@@ -10,6 +10,10 @@ class AuthControllerRouter {
     this.router.get('/logout', AuthController.doLogout);
     this.router.post('/login', AuthController.process);
 
+    this.router.get('/admin', function(req, res) {
+      res.redirect('/admin/designs/pendingList');
+    });
+
     return this.router;
   }
 }
