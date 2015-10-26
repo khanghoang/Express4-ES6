@@ -11,6 +11,8 @@ class DesignControllerRouter {
                      DesignAPIController.uploadDesign());
     this.router.get('/api/v1/design',
                     DesignAPIController.getDesigns);
+    this.router.get('/api/v1/design/:id',
+                    DesignAPIController.getDesignByID);
     this.router.get('/api/v1/design/approved',
                     DesignAPIController.getAllApprovedDesigns);
 

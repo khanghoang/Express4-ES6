@@ -81,6 +81,17 @@ class DesignController {
     return res.status(200).json(approvedDesigns);
   }
 
+  static getDesignByID = async (req, res, next) => {
+    let design = null;
+    try {
+      design = await DesignManager.findOneDesignByID(req.params.id);
+    } catch (e) {
+      next(e);
+    }
+
+    return json.status(200).json({design: design});
+  }
+
   static getDesigns = async (req, res) => {
     var designs = await Designs.findAsync({});
     return res.status(200).json({data: designs});

@@ -1,6 +1,11 @@
 /* @flow */
 class DesignManager {
 
+  static getDesignByID : Designs|Error =
+    async (id: string) => {
+      return await Designs.findOne({_id: id});
+    }
+
   static approveDesign : number|Error =
     async (design: Designs) => {
       return await DesignManager._changeDesignStatus('approved', design);

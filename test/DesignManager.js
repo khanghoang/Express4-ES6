@@ -59,4 +59,20 @@ describe('Design Manager', function() {
     yield Designs.remove({});
   });
 
+  it('able to get design by id', function* () {
+    let design = new Designs(
+      {
+        status: 'pending'
+      }
+    );
+
+    yield design.save();
+
+    var id = design._id.toString();
+
+    var updatedDesign = yield DesignManager.getDesignByID(id);
+    expect(updatedDesign).to.be.ok;
+    yield Designs.remove({});
+  });
+
 });
