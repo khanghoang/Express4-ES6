@@ -1,6 +1,5 @@
 /* @flow */
 import express from 'express';
-import bar from './bar';
 import connectToDatabase from './config/database';
 import Mongoose from 'mongoose';
 import bodyParser from 'body-parser';
@@ -49,7 +48,20 @@ class App {
   }
 
   constructor() {
-    this.roles = new ConnectRoles();
+    this.roles = new ConnectRoles({
+      // optional function to customise code that runs when
+      // user fails authorisation
+      failureHandler: function(req, res, action) {
+        var accept = req.headers.accept || '';
+        if (accept.indexOf('html') > 0) {
+          res.redirect('/login');
+        } else {
+          res.status(403);
+          res.json({message: 'Access Denied - You don\'t' +
+                   ' have permission to: ' + action});
+        }
+      }
+    });
     this.express = express();
     this.instance = {};
   }
@@ -146,7 +158,8 @@ class App {
       res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
       res.header('Access-Control-Allow-Credentials', true);
       res.header('Access-Control-Allow-Headers',
-                 'Content-Type, Authorization, Content-Length, X-Requested-With');
+                 'Content-Type, Authorization, ' +
+                  'Content-Length, X-Requested-With');
       next();
     };
     this.express.use(allowCrossDomain);
@@ -262,19 +275,20 @@ class App {
     // special global variable
     GLOBAL.Promise = require('bluebird');
     GLOBAL._ = require('lodash');
+    GLOBAL.ObjectID = require('mongodb').ObjectID;
+    GLOBAL.roles = this.roles;
 
     await this.loadMiddlewares();
     await this.loadModels();
+
+    this.express.use('/admin/*', roles.can('admin'));
+
     await this.loadRouters();
 
     let app = this.express;
 
     app.get('/', (req, res) => {
-      res.send('Hello world' + bar(new Users({}), '2'));
-    });
-
-    app.get('/admin', this.roles.can('admin'), function(req, res) {
-      res.send('hello admin');
+      res.redirect('/admin/');
     });
 
     let userController = new UserController(Users);

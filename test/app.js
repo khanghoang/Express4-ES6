@@ -121,11 +121,11 @@ describe('Test authorization', () => {
       .end(done);
   });
 
-  it('It should show 403 page if hasnt ' +
+  it('It should redirect to login page if hasnt ' +
      'logged in yet', (done) => {
        express
        .get('/admin')
-       .expect(403)
+       .expect(302)
        .end(done);
      });
 
@@ -145,7 +145,7 @@ describe('Test authorization', () => {
       .end((err, res) => {
         expect(res.text).to.be.ok;
         // doesn't redirect to login page
-        expect(res.header.location).to.be.undefined;
+        expect(res.header.location).to.be.equal('/admin/designs/pendingList');
         done();
       });
   });

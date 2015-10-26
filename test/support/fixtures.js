@@ -22,6 +22,7 @@ before(function* () {
   GLOBAL.Promise = require('bluebird');
   GLOBAL._ = require('lodash');
   GLOBAL.expect = expect;
+  GLOBAL.ObjectID = require('mongodb').ObjectID;
 
   GLOBAL.DesignController =
     require('../../app/controllers/api/v1/DesignController');
