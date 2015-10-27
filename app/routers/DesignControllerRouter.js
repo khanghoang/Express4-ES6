@@ -6,31 +6,39 @@ class DesignControllerRouter {
   static route() {
     this.router = router();
 
+    let getApiPath = function(path) {
+      return '/api/v1/design' + path;
+    };
+
+    let getAdminPath = function(path) {
+      return '/admin/design/design' + path;
+    };
+
     // this is the API
-    this.router.post('/api/v1/design/upload',
+    this.router.post(getApiPath('/upload'),
                      DesignAPIController.uploadDesign());
-    this.router.get('/api/v1/design',
+    this.router.get(getApiPath(''),
                     DesignAPIController.getDesigns);
-    this.router.get('/api/v1/design/approved',
+    this.router.get(getApiPath('/approved'),
                     DesignAPIController.getAllApprovedDesigns);
-    this.router.get('/api/v1/design/:id',
+    this.router.get(getApiPath('/:id'),
                     DesignAPIController.getDesignByID);
 
     // this is for CMS
-    this.router.get('/admin/designs', DesignController.index);
-    this.router.get('/admin/designs/approvedList',
+    this.router.get(getAdminPath(''), DesignController.index);
+    this.router.get(getAdminPath('/approvedList'),
                     DesignController.approvedPage);
-    this.router.get('/admin/designs/pinnedList',
+    this.router.get(getAdminPath('/pinnedList'),
                     DesignController.pinnedPage);
-    this.router.get('/admin/designs/rejectedList',
+    this.router.get(getAdminPath('/rejectedList'),
                     DesignController.rejectedPage);
-    this.router.get('/admin/designs/pendingList',
+    this.router.get(getAdminPath('/pendingList'),
                     DesignController.pendingPage);
-    this.router.get('/admin/designs/approve/:id', DesignController.approve);
-    this.router.get('/admin/designs/reject/:id', DesignController.reject);
+    this.router.get(getAdminPath('/approve/:id'), DesignController.approve);
+    this.router.get(getAdminPath('/reject/:id'), DesignController.reject);
 
-    this.router.get('/admin/designs/pin/:id', DesignController.pin);
-    this.router.get('/admin/designs/unpin/:id', DesignController.unpin);
+    this.router.get(getAdminPath('/pin/:id'), DesignController.pin);
+    this.router.get(getAdminPath('/unpin/:id'), DesignController.unpin);
 
     return this.router;
   }
