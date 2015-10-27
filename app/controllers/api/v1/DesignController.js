@@ -17,8 +17,8 @@ const upload = multer({
     accessKeyId: config.s3.accessKeyId,
     region: 'ap-southeast-1',
     filename: function(req, file, cb) {
-      file.desName = Date.now();
-      cb(null, file.desName + file.originalname);
+      file.desName = Date.now() + file.originalname;
+      cb(null, file.desName);
     }
   })
 });

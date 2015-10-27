@@ -11,7 +11,7 @@ class DesignControllerRouter {
     };
 
     let getAdminPath = function(path) {
-      return '/admin/design/design' + path;
+      return '/admin/designs' + path;
     };
 
     // this is the API
