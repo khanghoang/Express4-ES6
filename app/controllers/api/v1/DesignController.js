@@ -18,7 +18,7 @@ const upload = multer({
     region: 'ap-southeast-1',
     filename: function(req, file, cb) {
       file.desName = Date.now();
-      cb(null, file.desName);
+      cb(null, file.desName + file.originalname);
     }
   })
 });
