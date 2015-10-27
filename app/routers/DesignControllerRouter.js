@@ -11,10 +11,10 @@ class DesignControllerRouter {
                      DesignAPIController.uploadDesign());
     this.router.get('/api/v1/design',
                     DesignAPIController.getDesigns);
-    this.router.get('/api/v1/design/:id',
-                    DesignAPIController.getDesignByID);
     this.router.get('/api/v1/design/approved',
                     DesignAPIController.getAllApprovedDesigns);
+    this.router.get('/api/v1/design/:id',
+                    DesignAPIController.getDesignByID);
 
     // this is for CMS
     this.router.get('/admin/designs', DesignController.index);
