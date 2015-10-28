@@ -2,12 +2,12 @@ if paginate.hasPreviousPages || paginate.hasNextPages(pageCount)
   .navigation.well-sm#pagination
     ul.pager
       if paginate.hasPreviousPages
-        li.previous
-          a(href=paginate.href(true)).prev
-            i.fa.fa-arrow-circle-left
-            |  Previous
+        .btn-group(role='group', aria-label='...', class='pull-left')
+          a.btn.btn-default(href=paginate.href(true)) Previous
+      .btn-group(role='group', aria-label='...')
+        if paginate.getArrayPages(3)(pageCount, currentPage)
+          each page in paginate.getArrayPages(3)(pageCount, currentPage)
+            a.btn.btn-default(href=page.url)= page.number
       if paginate.hasNextPages(pageCount)
-        li.next
-          a(href=paginate.href()).next
-            | Next&nbsp;
-            i.fa.fa-arrow-circle-right
+        .btn-group(role='group', aria-label='...', class='pull-right')
+          a.btn.btn-default(href=paginate.href()) Next

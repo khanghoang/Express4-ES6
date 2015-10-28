@@ -178,6 +178,38 @@ class App {
 
     this.express.use(expressPaginate.middleware(10, 50));
 
+    // all currentPage to use in view
+    this.express.use(function(req, res, next) {
+      res.locals.currentPage = req.query.page;
+      next();
+    });
+
+    // generate all the prev and next urls
+    this.express.use(function(req, res, next) {
+      res.locals.paginate.getArrayPages = function(limit) {
+        limit = limit || 3;
+        return function(pageCount, currentPage) {
+          let maxPage = pageCount;
+          if (limit > 0) {
+            let start = currentPage - limit > 0 ? currentPage - limit : 1;
+            let end = currentPage + limit > maxPage ?
+              maxPage : currentPage + limit;
+            let pages = [];
+            for (let i = start; i <= end; i++) {
+              pages.push({
+                number: i,
+                url: res.locals.paginate.href()
+                .replace('page=' + (currentPage + 1), 'page=' + i)
+              });
+            }
+
+            return pages;
+          }
+        };
+      };
+      next();
+    });
+
     this.express.use('/public',
                      express.static(path.resolve(__dirname, '../public')));
 
