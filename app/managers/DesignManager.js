@@ -1,7 +1,7 @@
 /* @flow */
 class DesignManager {
 
-  static getDesignByID : Designs|Error =
+  static findOneDesignByID : Designs|Error =
     async (id: string) => {
       return await Designs.findOne({_id: id});
     }

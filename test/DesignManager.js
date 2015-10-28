@@ -70,7 +70,7 @@ describe('Design Manager', function() {
 
     var id = design._id.toString();
 
-    var updatedDesign = yield DesignManager.getDesignByID(id);
+    var updatedDesign = yield DesignManager.findOneDesignByID(id);
     expect(updatedDesign).to.be.ok;
     yield Designs.remove({});
   });
