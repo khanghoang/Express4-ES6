@@ -89,7 +89,7 @@ class DesignController {
       next(e);
     }
 
-    return json.status(200).json({design: design});
+    return res.status(200).json(design);
   }
 
   static getDesigns = async (req, res) => {

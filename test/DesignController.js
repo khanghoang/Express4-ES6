@@ -40,4 +40,39 @@ describe('Design Controller', function() {
     yield DesignController.getAllApprovedDesigns(req, res, function() {});
     yield Designs.remove({});
   });
+
+  it('able to get design by id', function* () {
+    let design = new Designs(
+      {
+        status: 'pending'
+      }
+    );
+
+    yield design.save();
+    let id = design._id;
+
+    let res = {
+      status: function() {
+        console.log(this);
+        return this;
+      },
+      json: function(r) {
+        console.log(r._id);
+        expect(r._id).to.be.not.null;
+      }
+    };
+
+    let req = {
+      params: {
+        id: id
+      }
+    };
+
+    let next = function() {};
+
+    var updatedDesign = yield DesignController.getDesignByID(req, res, next);
+    expect(updatedDesign).to.be.ok;
+    yield Designs.remove({});
+
+  });
 });
