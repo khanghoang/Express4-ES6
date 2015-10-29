@@ -7,7 +7,7 @@ if paginate.hasPreviousPages || paginate.hasNextPages(pageCount)
       .btn-group(role='group', aria-label='...')
         if paginate.getArrayPages(3)(pageCount, currentPage)
           each page in paginate.getArrayPages(3)(pageCount, currentPage)
-            a.btn.btn-default(href=page.url)= page.number
+            a.btn.btn-default(href=page.url, class=(currentPage === page.number? "active" : ""))= page.number
       if paginate.hasNextPages(pageCount)
         .btn-group(role='group', aria-label='...', class='pull-right')
           a.btn.btn-default(href=paginate.href()) Next
