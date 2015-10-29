@@ -56,9 +56,8 @@ describe('Design Controller', function() {
         console.log(this);
         return this;
       },
-      json: function(r) {
-        console.log(r._id);
-        expect(r._id).to.be.not.null;
+      json: function(d) {
+        expect(d._id).to.be.not.null;
       }
     };
 
@@ -70,7 +69,8 @@ describe('Design Controller', function() {
 
     let next = function() {};
 
-    yield Designs.remove({});
 
+    yield DesignController.getDesignByID(req, res, next);
+    yield Designs.remove({});
   });
 });
