@@ -70,8 +70,6 @@ describe('Design Controller', function() {
 
     let next = function() {};
 
-    var updatedDesign = yield DesignController.getDesignByID(req, res, next);
-    expect(updatedDesign).to.be.ok;
     yield Designs.remove({});
 
   });
