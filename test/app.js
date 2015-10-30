@@ -173,12 +173,14 @@ describe('Design API', function() {
       .post('/api/v1/design/upload')
       .field('email', 'khanghoang@gmail.com')
       .field('phone', phone)
+      .field('country', 'vietnam')
       .attach('design', path.join(__dirname, '/image/test.jpg'))
       .expect(200)
       .end((req, res) => {
         var design = JSON.parse(res.text);
         expect(design.email).to.be.equal('khanghoang@gmail.com');
         expect(design.phone).to.be.equal(phone.toString());
+        expect(design.country).to.be.equal('vietnam');
         done();
       });
   });

@@ -28,6 +28,9 @@ var DesignSchema = new Schema({
   },
   phone: {
     type: String
+  },
+  country: {
+    type: String
   }
 });
 
