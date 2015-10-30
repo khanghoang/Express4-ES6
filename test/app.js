@@ -178,7 +178,7 @@ describe('Design API', function() {
       .end((req, res) => {
         var design = JSON.parse(res.text);
         expect(design.email).to.be.equal('khanghoang@gmail.com');
-        expect(design.phone).to.be.equal(phone);
+        expect(design.phone).to.be.equal(phone.toString());
         done();
       });
   });
