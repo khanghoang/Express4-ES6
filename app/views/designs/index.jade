@@ -27,6 +27,7 @@ block content
                     li= 'Name: ' + (design.name || '')
                     li= 'Email: ' + (design.email || '')
                     li= 'Address: ' + (design.address || '')
+                    li= 'Phone: ' + (design.phone || '')
                 td
                   a.btn.btn-success(href='/admin/designs/'+(design.isPinned?'unpin':'pin')+'/'+design._id+"?originURL="+originUrl) #{(design.isPinned ? "Unpin" : "Pin")}
                 td
