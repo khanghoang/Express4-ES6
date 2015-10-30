@@ -3,7 +3,6 @@ class DesignManager {
 
   static findOneDesignByID : Designs|Error =
     async (id) => {
-      console.log('id', typeof id);
       return await Designs.findOne({_id: id});
     }
 

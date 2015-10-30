@@ -53,7 +53,6 @@ describe('Design Controller', function() {
 
     let res = {
       status: function() {
-        console.log(this);
         return this;
       },
       json: function(d) {
