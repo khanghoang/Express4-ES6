@@ -25,6 +25,9 @@ var DesignSchema = new Schema({
   isPinned: {
     type: Boolean,
     default: false
+  },
+  phone: {
+    type: String
   }
 });
 

@@ -168,13 +168,17 @@ describe('Design API', function() {
   this.timeout(5000);
 
   it('Should upload design successfully', (done) => {
+    var phone = 12345678;
     express
       .post('/api/v1/design/upload')
       .field('email', 'khanghoang@gmail.com')
+      .field('phone', phone)
       .attach('design', path.join(__dirname, '/image/test.jpg'))
       .expect(200)
       .end((req, res) => {
-        expect(JSON.parse(res.text).email).to.be.equal('khanghoang@gmail.com');
+        var design = JSON.parse(res.text);
+        expect(design.email).to.be.equal('khanghoang@gmail.com');
+        expect(design.phone).to.be.equal(phone);
         done();
       });
   });
