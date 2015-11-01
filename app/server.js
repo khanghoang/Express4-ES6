@@ -1,3 +1,4 @@
+require("babel-polyfill");
 import App from './App';
 import Promise from 'bluebird';
 import config from './config/config';

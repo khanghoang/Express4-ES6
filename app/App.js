@@ -19,6 +19,8 @@ import expressPaginate from 'express-paginate';
 import {Strategy as LocalStrategy} from 'passport-local';
 import ConnectRoles from 'connect-roles';
 import Policy from './policies/Policy';
+var graffiti = require('@risingstack/graffiti');
+var graffitiMongoose = require('@risingstack/graffiti-mongoose');
 
 class App {
 
@@ -83,6 +85,7 @@ class App {
   }
 
   async loadModels() {
+    var arrayModels = [];
     let readdirAsync = Promise.promisify(fs.readdir);
     let files = await readdirAsync(path.resolve(__dirname, './models'));
     for (let i = 0; i < files.length; i++) {
@@ -90,11 +93,15 @@ class App {
       let stringFile = './models/' + file;
       if (file.indexOf('.js.map') === -1) {
         let modelName = pluralize(file.replace('.js', ''));
-        global[modelName] = require(stringFile);
+        let model = require(stringFile);
+        global[modelName] = model;
+        arrayModels.push(model);
       }
     }
 
     console.log('finish loading modules');
+
+    return arrayModels;
   }
 
   loadErrorHandlers = async () => {
@@ -312,6 +319,14 @@ class App {
 
     await this.loadMiddlewares();
     await this.loadModels();
+
+    var models = await this.loadModels();
+
+    this.express.use(graffiti.express({
+      prefix: '/graphql',
+      adapter: graffitiMongoose,
+      models: models
+    }));
 
     this.express.use('/admin/*', roles.can('admin'));
 
