@@ -14,3 +14,14 @@ To run test
 ## Well, this project is interesting, how can I contribute for it?
 This project was created to be the skeleton of my future apps, so feel free to grab whatever parts of code that fits you.  
 PRs, feature requests and posting issues are also welcome.  
+
+##GraplQL support
+###Example with pagination
+```javascript```
+http://localhost:3000/graphql?q={viewer{designs(first:5,after:%22Y29ubmVjdGlvbi41NjJhNzNiOWFmOGM1MjM2YThkOGM0MTA=%22){count,edges{node{_id,%20imageURL}},pageInfo{startCursor,endCursor,hasPreviousPage,hasNextPage}}}}
+```
+###Normal request
+Get ```imageURL``` and ```_id``` from ```Design``` models
+```javascript```
+http://localhost:3000/graphql?q={designs{_id,imageURL}}
+```
