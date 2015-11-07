@@ -6,6 +6,7 @@
   "bin": {
     "gulp": "./node_modules/gulp-cli/bin/gulp.js"
   },
+  "private": true,
   "scripts": {
     "start": "gulp babel && node dist/server.js",
     "pretest": "gulp babel",
@@ -53,6 +54,7 @@
     "passport-local": "^1.0.0",
     "pluralize": "^1.2.1",
     "rewire": "^2.3.4",
+    "shipit-deploy": "^2.0.0",
     "sinon": "^1.17.1",
     "supertest": "^1.1.0",
     "typecheck": "^0.1.2"
