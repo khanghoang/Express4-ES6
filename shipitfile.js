@@ -5,35 +5,46 @@ module.exports = function (shipit) {
     default: {
       workspace: '../shipit-temp-folder',
       deployTo: '~/express4-es6',
+      branch: "develop",
       repositoryUrl: 'https://github.com/khanghoang/express4-es6.git',
       ignores: ['.git', 'node_modules'],
       rsync: ['--del'],
-      keepReleases: 4,
+      keepReleases: 10,
       key: '~/Documents/Certs/khanghoang.pem',
       shallowClone: true
     },
     staging: {
-      servers: 'ubuntu@54.179.135.31'
-    }
-  });
-
-  shipit.on('cleaned', function () {
-    return shipit.start(['cd', 'npm', 'installGulp', 'babel']);
-  });
-
-  shipit.blTask('cd', function () {
-    return shipit.remote('cd ~/express4-es6');
+      servers: {
+        host: '54.251.129.55',
+        user: 'ubuntu'
+      }
+    },
+    test: {
+      branch: 'shipit',
+      servers: {
+        host: '54.179.191.102',
+        user: 'ubuntu'
+      }
+    },
   });
 
   shipit.blTask('npm', function () {
-    return shipit.remote('cd ~/express4-es6 && npm install');
+    return shipit.remote('cd ~/express4-es6/current/ && /opt/node/bin/npm install');
   });
 
   shipit.blTask('installGulp', function () {
-    return shipit.remote('npm install gulp-cli --save');
+    return shipit.remote('cd ~/express4-es6/current/ && /opt/node/bin/npm install gulp --save && /opt/node/bin/npm install gulp-cli --save');
   });
 
   shipit.blTask('babel', function () {
-    return shipit.remote('gulp babel');
+    return shipit.remote('cd ~/express4-es6/current/ && /opt/node/bin/gulp babel');
+  });
+
+  shipit.on('published', function () {
+    shipit.start(['npm', 'installGulp','babel', 'pm2']);
+  });
+
+  shipit.blTask('pm2', function () {
+    return shipit.remote('cd ~/express4-es6/ && pwd && /opt/node/bin/pm2 startOrGracefulReload secret.json');
   });
 };
