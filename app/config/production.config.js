@@ -10,7 +10,7 @@ const config = {
   },
 
   database: {
-    url: process.env.DATABASE_URL
+    url: process.env.DATABASE_URL || 'mongodb://localhost/database'
   }
 };
 
