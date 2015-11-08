@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "bin": {
-    "gulp": "./node_modules/gulp-cli/bin/gulp.js"
-  },
   "private": true,
   "scripts": {
     "start": "gulp babel && node dist/server.js",
@@ -34,7 +31,7 @@
     "express-session": "^1.11.3",
     "gulp": "https://registry.npmjs.org/gulp/-/gulp-3.9.0.tgz",
     "gulp-babel": "^5.2.1",
-    "gulp-cli": "^0.3.0",
+    "gulp-cli": "https://registry.npmjs.org/gulp-cli/-/gulp-cli-0.3.0.tgz",
     "gulp-concat": "^2.6.0",
     "gulp-nodemon": "^2.0.4",
     "gulp-sourcemaps": "^1.5.2",
@@ -53,8 +50,10 @@
     "passport": "^0.3.0",
     "passport-local": "^1.0.0",
     "pluralize": "^1.2.1",
+    "pm2": "^0.15.10",
     "rewire": "^2.3.4",
     "shipit-deploy": "^2.0.0",
+    "shipit-pm2": "0.0.4",
     "sinon": "^1.17.1",
     "supertest": "^1.1.0",
     "typecheck": "^0.1.2"
