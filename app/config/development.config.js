@@ -10,7 +10,7 @@ const config = {
   },
 
   database: {
-    url: 'mongodb://localhost/database'
+    url: 'mongodb://mongo:27017/database'
   }
 };
 
