@@ -2,6 +2,8 @@ import AuthController from '../controllers/AuthController';
 import RouterMixin from './_decorators/routerHelper';
 
 const Router = Object.assign({}, RouterMixin, {
+  prefix: '',
+
   _router: function() {
     return {
       '/login': {
