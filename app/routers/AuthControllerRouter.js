@@ -1,21 +1,51 @@
 import {Router as router} from 'express';
 import AuthController from '../controllers/AuthController';
 
-class AuthControllerRouter {
-  static route() {
-    this.router = router();
+const Router = {
 
-    // this is the route
-    this.router.get('/login', AuthController.login);
-    this.router.get('/logout', AuthController.doLogout);
-    this.router.post('/login', AuthController.process);
+  _mapRoute: function(parentPath, routeObject) {
+    var r = router();
+    // for the route path
+    for (let path in routeObject) {
+      // verb, such as GET, POST...
+      for (let verb in routeObject[path]) {
+        // map them to app
+        r[verb](parentPath + path, routeObject[path][verb].handler);
+      }
+    }
+    return r;
+  },
 
-    this.router.get('/admin', function(req, res) {
-      res.redirect('/admin/designs/pendingList');
-    });
+  _router: function() {
+    return {
+      '/login': {
+        get: {
+          handler: AuthController.login
+        },
+        post: {
+          handler: AuthController.process
+        }
+      },
+      '/logout': {
+        get: {
+          handler: AuthController.doLogout
+        }
+      },
+      '/admin': {
+        get: {
+          handler: function(req, res) {
+            res.redirect('/admin/designs/pendingList');
+          }
+        }
+      }
+    }
+  },
 
-    return this.router;
+  route: function(path) {
+    path = path || '';
+    var r = this._router();
+    return this._mapRoute(path, r);
   }
 }
 
-export default AuthControllerRouter;
+export default Router;
