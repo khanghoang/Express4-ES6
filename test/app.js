@@ -165,7 +165,7 @@ describe('Design API', function() {
   // sometimes it needs more time to upload to s3
   // and return that for you
   // this one set mocha's timeout
-  this.timeout(5000);
+  this.timeout(10000);
 
   it('Should upload design successfully', (done) => {
     var phone = 12345678;
