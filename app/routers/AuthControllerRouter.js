@@ -1,21 +1,7 @@
-import {Router as router} from 'express';
 import AuthController from '../controllers/AuthController';
+import RouterMixin from './_decorators/routerHelper';
 
-const Router = {
-
-  _mapRoute: function(parentPath, routeObject) {
-    var r = router();
-    // for the route path
-    for (let path in routeObject) {
-      // verb, such as GET, POST...
-      for (let verb in routeObject[path]) {
-        // map them to app
-        r[verb](parentPath + path, routeObject[path][verb].handler);
-      }
-    }
-    return r;
-  },
-
+const Router = Object.assign({}, RouterMixin, {
   _router: function() {
     return {
       '/login': {
@@ -39,13 +25,7 @@ const Router = {
         }
       }
     }
-  },
-
-  route: function(path) {
-    path = path || '';
-    var r = this._router();
-    return this._mapRoute(path, r);
   }
-}
+});
 
 export default Router;

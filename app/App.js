@@ -68,11 +68,13 @@ class App {
 
   async loadRouters() {
     let readdirAsync = Promise.promisify(fs.readdir);
-    let files = await readdirAsync(path.resolve(__dirname, './routers'));
+    let readdirStat = Promise.promisify(fs.stat);
+    let files = await readdirAsync(path.resolve(__dirname, './routers/'));
     for (let i = 0; i < files.length; i++) {
       let file = files[i];
       let stringFile = './routers/' + file;
-      if (stringFile.indexOf('.js.map') === -1) {
+      let fileStat = await readdirStat(path.resolve(__dirname, './routers/', file));
+      if (fileStat.isFile() && stringFile.indexOf('.js.map') === -1) {
         let router = stringFile.replace('.js', '');
         router = require(router);
         this.express.use('/', router.route());
