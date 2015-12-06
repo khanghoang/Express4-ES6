@@ -13,12 +13,14 @@ const mockgoose = require('mockgoose');
 mockgoose(mongoose);
 
 before(function* () {
+
+  GLOBAL.mockgoose = mockgoose;
+  GLOBAL.mongoose = mongoose;
+
   // manually connect MOCKGOOSE db
   connectToDatabase({}, mongoose);
   yield loadModels();
 
-  GLOBAL.mockgoose = mockgoose;
-  GLOBAL.mongoose = mongoose;
   GLOBAL.Promise = require('bluebird');
   GLOBAL._ = require('lodash');
   GLOBAL.expect = expect;
