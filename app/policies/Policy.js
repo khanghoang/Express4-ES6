@@ -6,7 +6,7 @@ class Policy {
    * Get role from passport
    * @return {Role} String
    */
-  static _getRole = (req) : String => {
+  static _getRole = (req) : string => {
     return _.get(req, 'session.passport.user.role', '');
   }
 
@@ -25,7 +25,7 @@ class Policy {
     // make connect roles for all roles above
     _.forEach(roles, function(role) {
       connectRoles.use(role, function(req) {
-        if (Policy._getRole(req)) {
+        if (Policy._getRole(req) === role) {
           return true;
         }
         return false;

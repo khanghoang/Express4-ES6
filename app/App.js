@@ -56,8 +56,7 @@ class App {
         if (accept.indexOf('html') > 0) {
           res.redirect('/login');
         } else {
-          res.status(403);
-          res.json({message: 'Access Denied - You don\'t' +
+          res.status(403).json({message: 'Access Denied - You don\'t' +
                    ' have permission to: ' + action});
         }
       }
@@ -77,7 +76,7 @@ class App {
       if (fileStat.isFile() && stringFile.indexOf('.js.map') === -1) {
         let router = stringFile.replace('.js', '');
         router = require(router);
-        this.express.use('/', router.route());
+        this.express.use('/', router.route(this.roles));
       }
     }
 

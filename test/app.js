@@ -27,15 +27,14 @@ before(function* () {
   yield app.run();
 
   let admin = new Users({
-    username: 'khanghoang',
+    username: 'admin',
     password: '123456',
     role: 'admin'
   });
 
   let user = new Users({
-    username: 'khanghoang',
-    password: '123456',
-    role: 'admin'
+    username: 'user',
+    password: '123456'
   });
 
   yield Users.create([admin, user]);
@@ -140,7 +139,7 @@ describe('Test authorization', () => {
     express
       .post('/login')
       .type('form')
-      .send({username: 'khanghoang',
+      .send({username: 'admin',
             password: '123456'})
       .expect(302)
       .end(done);
@@ -165,7 +164,39 @@ describe('Test authorization', () => {
         done();
       });
   });
+
+  it('get designs for admin page', (done) => {
+    express
+      .get('/admin/designs')
+      .expect(200)
+      .end((err, res) => {
+        expect(err).to.be.null;
+        done();
+      });
+  });
 });
+
+describe('User account authorization', function() {
+  it('Login successfully user account \
+     by local username and password', (done) => {
+    express
+      .post('/login')
+      .type('form')
+      .send({username: 'user',
+            password: '123456'})
+      .expect(302)
+      .end(done);
+  });
+  it('user account can\'t go to designs admin', (done) => {
+    express
+      .get('/admin/designs')
+      .expect(200)
+      .end((err, res) => {
+        expect(err).to.not.be.null;
+        done();
+      });
+  });
+})
 
 describe('Design API', function() {
 
