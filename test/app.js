@@ -26,12 +26,19 @@ before(function* () {
   // order matter
   yield app.run();
 
+  let admin = new Users({
+    username: 'khanghoang',
+    password: '123456',
+    role: 'admin'
+  });
+
   let user = new Users({
     username: 'khanghoang',
     password: '123456',
     role: 'admin'
   });
-  yield user.save();
+
+  yield Users.create([admin, user]);
 });
 
 
