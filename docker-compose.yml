@@ -1,0 +1,17 @@
+web:
+  image: khanghoang/express4-es6:0.0.1
+  ports:
+    - "3000:3000"
+  volumes:
+    - /Users/khanghoangtrieu/Documents/Sandbox/Express4-ES6:/home/data/
+  links:
+    - redis
+    - mongo
+mongo:
+  image: mongo:3.2
+  ports:
+    - "27017:27017"
+redis:
+  image: redis
+  ports:
+    - "6379:6379"

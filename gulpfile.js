@@ -8,7 +8,7 @@ gulp.task("babel", function () {
   return gulp.src("app/**/*.js")
   .pipe(sourcemaps.init())
   .pipe(babel({
-    optional: ['runtime', 'es7.classProperties'],
+    optional: ['runtime', 'es7.classProperties', 'es7.decorators'],
     stage: 0
   }))
   .pipe(sourcemaps.write("."))

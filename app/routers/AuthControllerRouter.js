@@ -1,21 +1,31 @@
-import {Router as router} from 'express';
 import AuthController from '../controllers/AuthController';
+import RouterMixin from './_decorators/routerHelper';
 
-class AuthControllerRouter {
-  static route() {
-    this.router = router();
-
-    // this is the route
-    this.router.get('/login', AuthController.login);
-    this.router.get('/logout', AuthController.doLogout);
-    this.router.post('/login', AuthController.process);
-
-    this.router.get('/admin', function(req, res) {
-      res.redirect('/admin/designs/pendingList');
-    });
-
-    return this.router;
+const Router = Object.assign({}, RouterMixin, {
+  _router: function() {
+    return {
+      '/login': {
+        get: {
+          handler: AuthController.login
+        },
+        post: {
+          handler: AuthController.process
+        }
+      },
+      '/logout': {
+        get: {
+          handler: AuthController.doLogout
+        }
+      },
+      '/admin': {
+        get: {
+          handler: function(req, res) {
+            res.redirect('/admin/designs/pendingList');
+          }
+        }
+      }
+    }
   }
-}
+});
 
-export default AuthControllerRouter;
+export default Router;
