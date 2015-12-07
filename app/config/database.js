@@ -10,7 +10,7 @@ const connectToDatabase = (app, mongoose) => {
       auto_reconnect: true //eslint-disable-line
     };
 
-    mongoose.connect(config.database.url, options);
+    mongoose.connect(config.database.url);
   };
 
   connect();

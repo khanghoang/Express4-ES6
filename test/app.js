@@ -19,8 +19,6 @@ before(function* () {
   app.mailClient = mailClient;
   app.mongoose = mongoose;
 
-  mockgoose.reset('Design');
-
   express = session(app.express);
 
   // order matter
