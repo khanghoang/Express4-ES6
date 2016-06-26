@@ -1,8 +1,5 @@
 language: node_js
 sudo: false
 
-services:
-  - mongodb
-
 node_js:
-  - "stable"
+  - "5.0.x"
