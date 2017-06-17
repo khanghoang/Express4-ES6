@@ -5,12 +5,12 @@ const config = {
   },
 
   s3: {
-    secretAccessKey: process.env.SECRET_ACCESS_KEY || 'WY9HsXfYXMHfxebntOeQfRiexF03tHPReoQOh5YI',
-    accessKeyId: process.env.ACCESS_KEY_ID || 'AKIAIE6SUIZCTS3DO4PA',
+    secretAccessKey: process.env.SECRET_ACCESS_KEY | '',
+    accessKeyId: process.env.ACCESS_KEY_ID || '',
   },
 
   database: {
-    url: 'mongodb://mongo:27017/database'
+    url: 'mongodb://localhost:27017/database'
   }
 };
 
